@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@700&display=swap');
+
+:root {
+  font-family: 'DM Serif Display', serif;
+  font-family: 'Nunito', sans-serif;
+
+  /* Palette: https://coolors.co/7eb1b3-daefb3-ea9e8d-d64550-1c2826 */
+  --c-white: #fff;
+  --c-black: #000;
+  --c-dark-green: #1c2826;
+  --c-red: #d64550;
+  --c-pink: #ea9e8d;
+  --c-light-green: #daefb3;
+  --c-teal: #7eb1b3;
+  --c-teal-lighter: #8bc2c4;
+
+  /* Border style */
+  --border-width: 2px;
+  --border-style: var(--border-width) solid var(--c-dark-green);
+  --border-radius: 1rem;
+
+  /* Shadows */
+  --drop-shadow-sm: 2px 2px 0 1px rgba(0, 0, 0, 1);
+  --drop-shadow-md: 6px 6px 0 1px rgba(0, 0, 0, 1);
+  --box-shadow-outline: 0 0 0 var(--border-width) var(--c-dark-green);
+}
+
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+  3. Allow percentage-based heights in the application
+*/
+html,
+body {
+  height: 100%;
+}
+
+body.no-scroll {
+  position: fixed;
+  overflow: hidden;
+  overscroll-behavior-y: none;
+  width: 100%;
+}
+
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1.25rem;
+
+  /* Prevent pinch to zoom on iOS Safari */
+  touch-action: pan-x pan-y;
+}
+
+/*
+  6. Improve media defaults
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/*
+  7. Remove built-in form typography styles
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/*
+  8. Avoid text overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/*
+  9. Create a root stacking context
+*/
+#root {
+  isolation: isolate;
+}
+
+/*
+  Typography styles
+*/
+
+h1 {
+  font-size: 4rem;
+}
