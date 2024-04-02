@@ -1,7 +1,7 @@
 <script lang="ts">
   const title = 'Dream Girl';
   const description = 'TODO: description';
-  const socialMediaImage = 'TODO';
+  const socialMediaImage = '';
   const websiteLink = 'https://j-fan.github.io/dream-girl';
 </script>
 

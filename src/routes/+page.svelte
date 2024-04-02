@@ -7,7 +7,10 @@
   <title>Dream Girl home page</title>
 </svelte:head>
 
-Home page
+<p>Home page</p>
 
 <style>
+  p {
+    color: pink;
+  }
 </style>
