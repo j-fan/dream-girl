@@ -34,7 +34,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"simplex-noise": "^4.0.0",
-		"svelte-confetti": "^1.2.2"
+		"simplex-noise": "^4.0.0"
 	}
 }

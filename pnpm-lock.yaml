@@ -8,9 +8,6 @@ dependencies:
   simplex-noise:
     specifier: ^4.0.0
     version: 4.0.0
-  svelte-confetti:
-    specifier: ^1.2.2
-    version: 1.2.2
 
 devDependencies:
   '@sveltejs/adapter-vercel':
@@ -2959,10 +2956,6 @@ packages:
       - stylus
       - sugarss
     dev: true
-
-  /svelte-confetti@1.2.2:
-    resolution: {integrity: sha512-LkvWO732jRNmYykWi0IOK7xoBX241p+p+tC7Ef1EcO3TK9b9lpB/vYqKkcwVya+onG2SgQsX2g+JVbVKxq5ixQ==}
-    dev: false
 
   /svelte-eslint-parser@0.33.1(svelte@4.2.12):
     resolution: {integrity: sha512-vo7xPGTlKBGdLH8T5L64FipvTrqv3OQRx9d2z5X05KKZDlF4rQk8KViZO4flKERY+5BiVdOh7zZ7JGJWo5P0uA==}
