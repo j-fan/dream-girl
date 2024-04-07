@@ -1,7 +1,10 @@
 import type { OpenAI } from 'openai';
 
+export type ChatFormData = {
+  message?: string;
+};
+
 export type ReplyRequest = Partial<{
-  question: string;
   history: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
 }>;
 

@@ -10,8 +10,7 @@ export const POST = async (event) => {
 
   const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
     { role: 'system', content: 'You are a helpful assistant.' },
-    ...(data.history || []),
-    { role: 'user', content: data.question || '' }
+    ...(data.history || [])
   ];
 
   const completion = await openai.chat.completions.create({
