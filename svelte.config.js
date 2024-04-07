@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-vercel';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const dev = process.env.NODE_ENV === 'development'
@@ -14,10 +14,6 @@ const config = {
       base: dev ? '' : '/dream-girl',
     },
     adapter: adapter({
-      pages: 'docs',
-      assets: 'docs',
-      fallback: null,
-      precompress: false
     })
 	}
 };
