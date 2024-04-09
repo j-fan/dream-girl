@@ -1,4 +1,4 @@
-import type { ChatRequest, ChatResponse } from './api-types';
+import type { ChatRequest, ChatResponse } from '../jane-chatgpt-test/api-types';
 import { OPENAI_API_KEY } from '$env/static/private';
 import OpenAI from 'openai';
 import { json } from '@sveltejs/kit';

@@ -21,7 +21,7 @@
     };
 
     isLoading = true;
-    const response = await fetch('/jane-chatgpt-test', {
+    const response = await fetch('/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
