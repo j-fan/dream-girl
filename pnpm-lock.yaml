@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  babylonjs:
+  '@babylonjs/core':
     specifier: ^7.1.0
     version: 7.1.0
   openai:
@@ -16,6 +16,9 @@ dependencies:
     version: 4.0.0
 
 devDependencies:
+  '@babylonjs/loaders':
+    specifier: ^7.1.0
+    version: 7.1.0(@babylonjs/core@7.1.0)(babylonjs-gltf2interface@7.1.0)
   '@sveltejs/adapter-vercel':
     specifier: ^5.0.0
     version: 5.2.0(@sveltejs/kit@2.5.5)
@@ -110,6 +113,19 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
       picocolors: 1.0.0
+    dev: true
+
+  /@babylonjs/core@7.1.0:
+    resolution: {integrity: sha512-nz1CmflajMPnjdnwYrj72s4D/Q8IkOW4DBbwMfUNLFSCondfFXS3sZBgHeCAHpimR5n4e27YwvJ66MkQJsSraQ==}
+
+  /@babylonjs/loaders@7.1.0(@babylonjs/core@7.1.0)(babylonjs-gltf2interface@7.1.0):
+    resolution: {integrity: sha512-6gLbFiUsiqsQDRWLl4TL5pMKiemSAB/E61SHpp8xkBalxZUiKroSbZt3Irxc7CHIq8SE5CYfPUPYjs6BmpTgqw==}
+    peerDependencies:
+      '@babylonjs/core': ^7.0.0
+      babylonjs-gltf2interface: ^7.0.0
+    dependencies:
+      '@babylonjs/core': 7.1.0
+      babylonjs-gltf2interface: 7.1.0
     dev: true
 
   /@csstools/css-parser-algorithms@2.6.1(@csstools/css-tokenizer@2.2.4):
@@ -1263,10 +1279,9 @@ packages:
       dequal: 2.0.3
     dev: true
 
-  /babylonjs@7.1.0:
-    resolution: {integrity: sha512-/7RmZO3GYvfba7znIuniCSrTucIExsiE+ulT52bkqVU7BKzhG3mk1WylkxCD8ks9zqcepYsJLKUOh7ohtoJYPA==}
-    requiresBuild: true
-    dev: false
+  /babylonjs-gltf2interface@7.1.0:
+    resolution: {integrity: sha512-44UnRGFj/kp6/MxB6SU5ThxYBjm9W0aYGkDbtSoPW2ZuWd4uTCjCKe8oS3fhsqXcZ5+K+rQVsHb785hxC4zRcw==}
+    dev: true
 
   /balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}

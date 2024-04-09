@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import * as BABYLON from 'babylonjs';
+  import '@babylonjs/loaders/glTF';
+  import * as BABYLON from '@babylonjs/core';
   import { fade } from 'svelte/transition';
 
   let canvasRef: HTMLCanvasElement | null = null;
@@ -21,7 +22,7 @@
     scene = new BABYLON.Scene(engine);
 
     // Setup camera
-    const camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 2, -20), scene);
+    const camera = new BABYLON.UniversalCamera('camera1', new BABYLON.Vector3(0, 2, -20), scene);
     camera.attachControl(canvasRef, true);
 
     // Setup lighting
@@ -35,37 +36,53 @@
     // Add ground
     BABYLON.MeshBuilder.CreateGround('ground', { width: 20, height: 20 }, scene);
 
-    // Create path for camera to follow
-    const path = [
-      new BABYLON.Vector3(0, 2, -20),
-      new BABYLON.Vector3(0, 2, -40),
-      new BABYLON.Vector3(0, 10, -40),
-      new BABYLON.Vector3(0, 2, -20)
-    ];
-    numCameraPathPoints = path.length;
+    // Load camera path from GLTF file with a mesh called "camera_path"
+    // Note to self: Do not export this file from Blender with +Y up, the negative numbers are lost
+    BABYLON.SceneLoader.ImportMesh('', '/assets3d/test-path.gltf', '', scene, (meshes) => {
+      const mesh = meshes.find((mesh) => mesh.name === 'camera_path');
 
-    // Animate camera along the path
-    const animation = new BABYLON.Animation(
-      'cameraAnimation',
-      'position',
-      30,
-      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
-    );
-    // Set the easing function of this animation
-    const easingFunction = new BABYLON.SineEase();
-    easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
-    animation.setEasingFunction(easingFunction);
+      if (mesh) {
+        // Convert the raw vertices data to Vector3 points that describe the camera path
+        const vertices = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind) || [];
+        const cameraPath: BABYLON.Vector3[] = [];
+        for (let i = 0; i < vertices.length / 3; i++) {
+          let pos = new BABYLON.Vector3(0, 0, 0);
+          pos.x = vertices[3 * i];
+          pos.y = vertices[3 * i + 2]; // Blender swaps the y & z axis
+          pos.z = vertices[3 * i + 1];
+          cameraPath.push(pos);
+        }
+        cameraPath.push(cameraPath[0]);
 
-    const keys = [
-      { frame: 0, value: path[0] },
-      { frame: 30, value: path[1] },
-      { frame: 60, value: path[2] },
-      { frame: 90, value: path[3] }
-    ];
+        // Set the maximum number of possible points
+        numCameraPathPoints = cameraPath.length;
 
-    animation.setKeys(keys);
-    camera.animations.push(animation);
+        // Animate camera along the path
+        const animation = new BABYLON.Animation(
+          'cameraAnimation',
+          'position',
+          30,
+          BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+          BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+        );
+
+        // Set the easing function of this animation
+        const easingFunction = new BABYLON.SineEase();
+        easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+        animation.setEasingFunction(easingFunction);
+
+        const keys = cameraPath.map((vertex, index) => ({
+          frame: index * FRAMES_PER_POINT,
+          value: cameraPath[index]
+        }));
+
+        animation.setKeys(keys);
+        camera.position = cameraPath[0];
+        camera.animations.push(animation);
+      } else {
+        throw new Error('camera_path mesh does not exist in test-path.gltf file');
+      }
+    });
 
     engine.runRenderLoop(() => {
       scene.render();
@@ -100,6 +117,7 @@
   };
 </script>
 
+<!-- <img src="/icon/icon-192x192.png" /> -->
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
 <button class="animateButton" on:click={progressCameraAnimation}>Animate</button>
 

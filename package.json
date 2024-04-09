@@ -12,6 +12,7 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@babylonjs/loaders": "^7.1.0",
 		"@sveltejs/adapter-vercel": "^5.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -34,7 +35,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"babylonjs": "^7.1.0",
+		"@babylonjs/core": "^7.1.0",
 		"openai": "^4.33.0",
 		"simplex-noise": "^4.0.0"
 	}

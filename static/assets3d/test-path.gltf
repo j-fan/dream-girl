@@ -1,0 +1,77 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.8.19",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "camera_path"
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "camera_path",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0
+                    },
+                    "indices" : 1,
+                    "mode" : 1
+                }
+            ]
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 3,
+            "max" : [
+                0,
+                -20,
+                10
+            ],
+            "min" : [
+                0,
+                -40,
+                2
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5123,
+            "count" : 4,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 36,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8,
+            "byteOffset" : 36
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 44,
+            "uri" : "data:application/octet-stream;base64,AAAAAAAAIMIAACBBAAAAAAAAoMEAAABAAAAAAAAAIMIAAABAAgAAAAEAAgA="
+        }
+    ]
+}
