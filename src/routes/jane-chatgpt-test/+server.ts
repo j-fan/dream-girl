@@ -1,4 +1,4 @@
-import type { ReplyRequest, ReplyResponse } from './api-types';
+import type { ChatRequest, ChatResponse } from './api-types';
 import { OPENAI_API_KEY } from '$env/static/private';
 import OpenAI from 'openai';
 import { json } from '@sveltejs/kit';
@@ -6,7 +6,7 @@ import { json } from '@sveltejs/kit';
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 export const POST = async (event) => {
-  const data: ReplyRequest = await event.request.json();
+  const data: ChatRequest = await event.request.json();
 
   const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
     { role: 'system', content: 'You are a helpful assistant.' },
@@ -22,7 +22,7 @@ export const POST = async (event) => {
     messages.push(completion.choices[0].message);
   }
 
-  const response: ReplyResponse = {
+  const response: ChatResponse = {
     reply: completion.choices[0].message.content || '',
     history: messages
   };

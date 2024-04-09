@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { EventHandler } from 'svelte/elements';
-  import type { ChatFormData, ReplyRequest, ReplyResponse } from './api-types';
+  import type { ChatFormData, ChatRequest, ChatResponse } from './api-types';
 
-  let responseData: ReplyResponse = {
+  let responseData: ChatResponse = {
     history: [],
     reply: ''
   };
@@ -16,7 +16,7 @@
       ...responseData
     };
 
-    const request: ReplyRequest = {
+    const request: ChatRequest = {
       history: responseData.history
     };
 
@@ -29,7 +29,7 @@
       body: JSON.stringify(request)
     });
 
-    const result: ReplyResponse = JSON.parse(await response.text());
+    const result: ChatResponse = JSON.parse(await response.text());
 
     responseData = result;
     isLoading = false;
