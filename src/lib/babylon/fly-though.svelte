@@ -4,22 +4,24 @@
   import { fade } from 'svelte/transition';
 
   let canvasRef: HTMLCanvasElement | null = null;
-  let currentFrame = 0;
   let scene: BABYLON.Scene;
+
+  const FRAMES_PER_POINT = 30;
+  /**
+   * How many points on the path that the camera will animate along
+   */
+  let numCameraPathPoints = 0;
+  /**
+   * At what point on the path the camera is at
+   */
+  let currentCameraPoint = 0;
 
   onMount(() => {
     const engine = new BABYLON.Engine(canvasRef, true);
     scene = new BABYLON.Scene(engine);
 
     // Setup camera
-    const camera = new BABYLON.ArcRotateCamera(
-      'camera1',
-      0,
-      1,
-      20,
-      new BABYLON.Vector3(0, 0, 0),
-      scene
-    );
+    const camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 2, -20), scene);
     camera.attachControl(canvasRef, true);
 
     // Setup lighting
@@ -35,11 +37,12 @@
 
     // Create path for camera to follow
     const path = [
-      new BABYLON.Vector3(0, 5, 0),
-      new BABYLON.Vector3(0, 5, 2),
-      new BABYLON.Vector3(0, 5, 10),
-      new BABYLON.Vector3(0, 5, 0)
+      new BABYLON.Vector3(0, 2, -20),
+      new BABYLON.Vector3(0, 2, -40),
+      new BABYLON.Vector3(0, 10, -40),
+      new BABYLON.Vector3(0, 2, -20)
     ];
+    numCameraPathPoints = path.length;
 
     // Animate camera along the path
     const animation = new BABYLON.Animation(
@@ -49,6 +52,10 @@
       BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
       BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
     );
+    // Set the easing function of this animation
+    const easingFunction = new BABYLON.SineEase();
+    easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+    animation.setEasingFunction(easingFunction);
 
     const keys = [
       { frame: 0, value: path[0] },
@@ -76,13 +83,19 @@
   });
 
   const progressCameraAnimation = () => {
-    console.log(currentFrame);
-    if (currentFrame < 90) {
-      var endFrame = Math.min(currentFrame + 30, 90);
+    if (currentCameraPoint < numCameraPathPoints) {
+      const currentFrame = currentCameraPoint * FRAMES_PER_POINT;
+      const endFrame = Math.min(
+        (currentCameraPoint + 1) * FRAMES_PER_POINT,
+        numCameraPathPoints * FRAMES_PER_POINT
+      );
+
       scene.beginAnimation(scene.getCameraByName('camera1'), currentFrame, endFrame, false);
-      currentFrame = endFrame;
-    } else {
-      currentFrame = 0;
+
+      currentCameraPoint += 1;
+      if (currentCameraPoint >= numCameraPathPoints - 1) {
+        currentCameraPoint = 0;
+      }
     }
   };
 </script>
