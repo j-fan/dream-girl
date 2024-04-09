@@ -44,7 +44,6 @@
 
       if (mesh) {
         // Convert the raw vertices data to Vector3 points that describe the camera path
-        const indices = mesh.getIndices() || [];
         const vertices = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind) || [];
         const cameraPath: BABYLON.Vector3[] = [];
         for (let i = 0; i < vertices.length / 3; i++) {
@@ -55,7 +54,6 @@
           cameraPath.push(pos);
         }
         cameraPath.push(cameraPath[0]);
-        console.log(cameraPath, indices);
 
         // Set the maximum number of possible points
         numCameraPathPoints = cameraPath.length;
@@ -76,7 +74,7 @@
 
         const keys = cameraPath.map((vertex, index) => ({
           frame: index * FRAMES_PER_POINT,
-          value: cameraPath[index]
+          value: vertex
         }));
 
         animation.setKeys(keys);
