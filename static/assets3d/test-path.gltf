@@ -20,7 +20,7 @@
     ],
     "meshes" : [
         {
-            "name" : "camera_path",
+            "name" : "Mesh",
             "primitives" : [
                 {
                     "attributes" : {
@@ -36,42 +36,42 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 3,
+            "count" : 5,
             "max" : [
                 0,
-                -20,
+                -18.635318756103516,
                 10
             ],
             "min" : [
-                0,
+                -6.385473728179932,
                 -40,
-                2
+                0.025694847106933594
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5123,
-            "count" : 4,
+            "count" : 8,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 36,
+            "byteLength" : 60,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 8,
-            "byteOffset" : 36
+            "byteLength" : 16,
+            "byteOffset" : 60
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 44,
-            "uri" : "data:application/octet-stream;base64,AAAAAAAAIMIAACBBAAAAAAAAoMEAAABAAAAAAAAAIMIAAABAAgAAAAEAAgA="
+            "byteLength" : 76,
+            "uri" : "data:application/octet-stream;base64,AAAAAAAAoMEAAABAAAAAAAAAIMIAAABAAAAAAAAAIMIAACBBzVXMwH7ODcJ0s6NAiDzSvyIVlcEAftI8AAABAAEAAgACAAMAAwAEAA=="
         }
     ]
 }

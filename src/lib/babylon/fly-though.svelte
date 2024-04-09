@@ -38,11 +38,13 @@
 
     // Load camera path from GLTF file with a mesh called "camera_path"
     // Note to self: Do not export this file from Blender with +Y up, the negative numbers are lost
+    // Also convert the mesh line to a curve so that vertex order is preserved
     BABYLON.SceneLoader.ImportMesh('', '/assets3d/test-path.gltf', '', scene, (meshes) => {
       const mesh = meshes.find((mesh) => mesh.name === 'camera_path');
 
       if (mesh) {
         // Convert the raw vertices data to Vector3 points that describe the camera path
+        const indices = mesh.getIndices() || [];
         const vertices = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind) || [];
         const cameraPath: BABYLON.Vector3[] = [];
         for (let i = 0; i < vertices.length / 3; i++) {
@@ -53,6 +55,7 @@
           cameraPath.push(pos);
         }
         cameraPath.push(cameraPath[0]);
+        console.log(cameraPath, indices);
 
         // Set the maximum number of possible points
         numCameraPathPoints = cameraPath.length;
