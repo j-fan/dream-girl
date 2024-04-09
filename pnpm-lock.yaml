@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  babylonjs:
+    specifier: ^7.1.0
+    version: 7.1.0
   openai:
     specifier: ^4.33.0
     version: 4.33.0
@@ -1259,6 +1262,11 @@ packages:
     dependencies:
       dequal: 2.0.3
     dev: true
+
+  /babylonjs@7.1.0:
+    resolution: {integrity: sha512-/7RmZO3GYvfba7znIuniCSrTucIExsiE+ulT52bkqVU7BKzhG3mk1WylkxCD8ks9zqcepYsJLKUOh7ohtoJYPA==}
+    requiresBuild: true
+    dev: false
 
   /balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
