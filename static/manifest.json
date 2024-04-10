@@ -2,8 +2,8 @@
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
-  "scope": "/dream-girl/",
-  "start_url": "/dream-girl/",
+  "scope": "/",
+  "start_url": "/",
   "name": "Dream Girl",
   "short_name": "Dream Girl",
   "icons": [
