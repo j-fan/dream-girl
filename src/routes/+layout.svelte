@@ -1,4 +1,6 @@
 <script lang="ts">
+  import InactivityTimeout from '$lib/components/inactivity-timeout.svelte';
+
   const title = 'Dream Girl';
   const description = 'TODO: description';
   const socialMediaImage = '';
@@ -29,6 +31,7 @@
   <meta property="twitter:image" content={socialMediaImage} />
 </svelte:head>
 
+<InactivityTimeout />
 <main>
   <slot />
 </main>
