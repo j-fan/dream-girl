@@ -1,6 +1,10 @@
 <script lang="ts">
-  // import { base } from '$app/paths';
-  // const homeBg = `${base}/img/home-bg.jpg`;
+  import { anonymousId } from '$lib/stores/user';
+  import { onMount } from 'svelte';
+
+  onMount(() => {
+    anonymousId.set(window.crypto.randomUUID());
+  });
 </script>
 
 <svelte:head>

@@ -1,12 +1,9 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import InactivityTimeout from '$lib/components/inactivity-timeout.svelte';
-  import { Collection, FirebaseApp } from 'sveltefire';
+  import { FirebaseApp } from 'sveltefire';
 
-  import { onMount } from 'svelte';
-  import { anonymousId } from '$lib/stores/user';
   import { auth, firestore, initialiseFirebase } from '$lib/firebase/firebase';
-  import type { PageData } from './$types';
 
   // Initialize Firebase
   initialiseFirebase();
@@ -17,13 +14,8 @@
   const websiteLink = 'https://j-fan.github.io/dream-girl';
 
   const onTimeout = () => {
-    anonymousId.set(window.crypto.randomUUID());
     goto('/');
   };
-
-  onMount(() => {
-    anonymousId.set(window.crypto.randomUUID());
-  });
 </script>
 
 <svelte:head>
