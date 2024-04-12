@@ -1,10 +1,15 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import InactivityTimeout from '$lib/components/inactivity-timeout.svelte';
 
   const title = 'Dream Girl';
   const description = 'TODO: description';
   const socialMediaImage = '';
   const websiteLink = 'https://j-fan.github.io/dream-girl';
+
+  const onTimeout = () => {
+    goto('/');
+  };
 </script>
 
 <svelte:head>
@@ -31,7 +36,7 @@
   <meta property="twitter:image" content={socialMediaImage} />
 </svelte:head>
 
-<InactivityTimeout />
+<InactivityTimeout {onTimeout} />
 <main>
   <slot />
 </main>

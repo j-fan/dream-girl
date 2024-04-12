@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
 
   export let onTimeout: (() => void) | undefined = undefined;
@@ -7,14 +6,13 @@
 
   const inactivityTimeout = () => {
     let timeoutId: number;
-    function resetTimer() {
+
+    const resetTimer = () => {
       clearTimeout(timeoutId);
       timeoutId = window.setTimeout(() => {
-        goto('/');
         onTimeout?.();
       }, 60000 * maxMinutes);
-    }
-
+    };
     window.addEventListener('load', resetTimer, true);
     window.addEventListener('mousemove', resetTimer, true);
     window.addEventListener('mousedown', resetTimer, true);
