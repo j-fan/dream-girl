@@ -28,7 +28,9 @@
     // animations, go to Dope Sheet view and then choose Shape Key Editor in
     // the dropdown immediately to the right. Create multiple actions and click
     // "Push Down" to add it to the NLA tracks.
-    BABYLON.SceneLoader.Append('/assets3d/', 'test-anim.gltf', scene, (scene) => {
+    // Actions or shape key animations will play together in the GLTF if they have
+    // the same name on the NLA track.
+    BABYLON.SceneLoader.Append('/assets3d/', 'test-anim-2.gltf', scene, (scene) => {
       scene.meshes.forEach((mesh) => {
         mesh.rotation = new BABYLON.Vector3(0, 1, 0);
       });
