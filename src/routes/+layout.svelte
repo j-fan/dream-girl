@@ -1,6 +1,17 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import InactivityTimeout from '$lib/components/inactivity-timeout.svelte';
+  import { Collection, FirebaseApp } from 'sveltefire';
+
+  import { onMount } from 'svelte';
+  import { anonymousId } from '$lib/stores/user';
+  import { auth, firestore, initialiseFirebase } from '$lib/firebase/const';
+  import type { PageData } from './$types';
+
+  export let data: PageData;
+
+  // Initialize Firebase
+  initialiseFirebase();
 
   const title = 'Dream Girl';
   const description = 'TODO: description';
@@ -8,8 +19,13 @@
   const websiteLink = 'https://j-fan.github.io/dream-girl';
 
   const onTimeout = () => {
+    anonymousId.set(window.crypto.randomUUID());
     goto('/');
   };
+
+  onMount(() => {
+    anonymousId.set(window.crypto.randomUUID());
+  });
 </script>
 
 <svelte:head>
@@ -36,10 +52,12 @@
   <meta property="twitter:image" content={socialMediaImage} />
 </svelte:head>
 
-<InactivityTimeout {onTimeout} />
-<main>
-  <slot />
-</main>
+<FirebaseApp {auth} {firestore}>
+  <InactivityTimeout {onTimeout} />
+  <main>
+    <slot />
+  </main>
+</FirebaseApp>
 
 <style>
   main {

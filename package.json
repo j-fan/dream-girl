@@ -36,7 +36,9 @@
 	"type": "module",
 	"dependencies": {
 		"@babylonjs/core": "^7.1.0",
+		"firebase": "^9.0.0",
 		"openai": "^4.33.0",
-		"simplex-noise": "^4.0.0"
+		"simplex-noise": "^4.0.0",
+		"sveltefire": "^0.4.5"
 	}
 }
