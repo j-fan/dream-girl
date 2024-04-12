@@ -5,10 +5,8 @@
 
   import { onMount } from 'svelte';
   import { anonymousId } from '$lib/stores/user';
-  import { auth, firestore, initialiseFirebase } from '$lib/firebase/const';
+  import { auth, firestore, initialiseFirebase } from '$lib/firebase/firebase';
   import type { PageData } from './$types';
-
-  export let data: PageData;
 
   // Initialize Firebase
   initialiseFirebase();
