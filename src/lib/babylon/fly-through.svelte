@@ -4,6 +4,11 @@
   import * as BABYLON from '@babylonjs/core';
   import { fade } from 'svelte/transition';
 
+  export let hdriLightingFile = 'test-env-lighting.env';
+  export let pathAnimationFile = 'test-path.gltf';
+  export let sceneFile = 'test-anim-2.gltf';
+  export let transformSceneMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
+
   let canvasRef: HTMLCanvasElement | null = null;
   let scene: BABYLON.Scene;
 
@@ -25,21 +30,26 @@
     const camera = new BABYLON.UniversalCamera('camera1', new BABYLON.Vector3(0, 2, -20), scene);
     camera.attachControl(canvasRef, true);
 
-    // Setup lighting
-    const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
-    light.intensity = 0.7;
+    // Setup HDRI lighting
+    const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
+      `/assets3d/${hdriLightingFile}`,
+      scene
+    );
+    scene.environmentTexture = hdrTexture;
 
-    // Add sphere
-    const sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, scene);
-    sphere.position.y = 1;
+    // // Add sphere
+    // const pbr = new BABYLON.PBRMetallicRoughnessMaterial('pbr', scene);
+    // const sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, scene);
+    // sphere.material = pbr;
+    // sphere.position.y = 1;
 
-    // Add ground
-    BABYLON.MeshBuilder.CreateGround('ground', { width: 20, height: 20 }, scene);
+    // // Add ground
+    // BABYLON.MeshBuilder.CreateGround('ground', { width: 20, height: 20 }, scene);
 
     // Load camera path from GLTF file with a mesh called "camera_path"
     // Note to self: Do not export this file from Blender with +Y up, the negative numbers are lost
     // Also convert the mesh line to a curve so that vertex order is preserved
-    BABYLON.SceneLoader.ImportMesh('', '/assets3d/test-path.gltf', '', scene, (meshes) => {
+    BABYLON.SceneLoader.ImportMesh('', `/assets3d/${pathAnimationFile}`, '', scene, (meshes) => {
       const mesh = meshes.find((mesh) => mesh.name === 'camera_path');
 
       if (mesh) {
@@ -72,6 +82,11 @@
         easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
         animation.setEasingFunction(easingFunction);
 
+        // Enable animation blending
+        scene.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
+        scene.animationPropertiesOverride.enableBlending = true;
+        scene.animationPropertiesOverride.blendingSpeed = 0.05;
+
         const keys = cameraPath.map((vertex, index) => ({
           frame: index * FRAMES_PER_POINT,
           value: vertex
@@ -84,6 +99,9 @@
         throw new Error('camera_path mesh does not exist in test-path.gltf file');
       }
     });
+
+    // Load the scene that the camera will fly through
+    BABYLON.SceneLoader.Append('/assets3d/', sceneFile, scene, transformSceneMeshes);
 
     engine.runRenderLoop(() => {
       scene.render();
