@@ -4,14 +4,14 @@
   import * as BABYLON from '@babylonjs/core';
   import { fade } from 'svelte/transition';
 
-  export let animatedMeshesFile = 'test-anim-2.gltf';
-  export let transformAnimatedMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
   /**
    * For best performance, convert your .hdr file
    * into .env with these instructions:
    * https://doc.babylonjs.com/features/featuresDeepDive/materials/using/HDREnvironment#creating-a-compressed-environment-texture-using-the-sandbox
    */
   export let hdriLightingFile = 'test-env-lighting.env';
+  export let animatedMeshesFile = 'test-anim-2.gltf';
+  export let transformAnimatedMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
 
   let canvasRef: HTMLCanvasElement | null = null;
   let scene: BABYLON.Scene;
@@ -35,10 +35,6 @@
     );
     scene.environmentTexture = hdrTexture;
 
-    // Set HDRI as background
-    // scene.clearColor = BABYLON.Color4.FromHexString('#000000');
-    // scene.createDefaultSkybox(scene.environmentTexture);
-
     // Load GLTF file with multiple animations.
     // Animation groups correspond to the NLA tracks. To create the shape key
     // animations, go to Dope Sheet view and then choose Shape Key Editor in
@@ -48,6 +44,9 @@
     // the same name on the NLA track.
     BABYLON.SceneLoader.Append('/assets3d/', animatedMeshesFile, scene, (scene) => {
       transformAnimatedMeshes?.(scene);
+
+      // Set HDRI as background
+      scene.createDefaultSkybox(hdrTexture);
 
       // Enable animation blending for all animations
       scene.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();

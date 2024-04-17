@@ -4,6 +4,11 @@
   import * as BABYLON from '@babylonjs/core';
   import { fade } from 'svelte/transition';
 
+  /**
+   * For best performance, convert your .hdr file
+   * into .env with these instructions:
+   * https://doc.babylonjs.com/features/featuresDeepDive/materials/using/HDREnvironment#creating-a-compressed-environment-texture-using-the-sandbox
+   */
   export let hdriLightingFile = 'test-env-lighting.env';
   export let pathAnimationFile = 'test-path.gltf';
   export let sceneFile = 'test-anim-2.gltf';
@@ -37,19 +42,13 @@
     );
     scene.environmentTexture = hdrTexture;
 
-    // // Add sphere
-    // const pbr = new BABYLON.PBRMetallicRoughnessMaterial('pbr', scene);
-    // const sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, scene);
-    // sphere.material = pbr;
-    // sphere.position.y = 1;
-
-    // // Add ground
-    // BABYLON.MeshBuilder.CreateGround('ground', { width: 20, height: 20 }, scene);
-
     // Load camera path from GLTF file with a mesh called "camera_path"
     // Note to self: Do not export this file from Blender with +Y up, the negative numbers are lost
     // Also convert the mesh line to a curve so that vertex order is preserved
     BABYLON.SceneLoader.ImportMesh('', `/assets3d/${pathAnimationFile}`, '', scene, (meshes) => {
+      // Set HDRI as background
+      scene.createDefaultSkybox(hdrTexture);
+
       const mesh = meshes.find((mesh) => mesh.name === 'camera_path');
 
       if (mesh) {
