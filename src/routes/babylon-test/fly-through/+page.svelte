@@ -4,7 +4,7 @@
 </script>
 
 <FlyThrough
-  sceneFile="intro-objects3.glb"
+  sceneFile="heart.glb"
   transformSceneMeshes={(scene) => {
     // Replace or remove this mesh property override code
     scene.meshes.forEach((mesh) => {
