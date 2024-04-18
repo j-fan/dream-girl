@@ -15,9 +15,9 @@ export const createRainbowGlassMaterial = (scene: BABYLON.Scene) => {
   material.iridescence.isEnabled = true;
   material.iridescence.indexOfRefraction = 2.0;
 
-  // Anisotropy
-  material.anisotropy.isEnabled = true;
-  material.anisotropy.direction = new BABYLON.Vector2(0.5, -0.5);
+  // dispersion
+  material.subSurface.isDispersionEnabled = true;
+  material.subSurface.dispersion = 5.0;
 
   return material;
 };
