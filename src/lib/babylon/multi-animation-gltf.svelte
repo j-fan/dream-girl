@@ -43,21 +43,24 @@
     // Actions or shape key animations will play together in the GLTF if they have
     // the same name on the NLA track.
     BABYLON.SceneLoader.Append('/assets3d/', animatedMeshesFile, scene, (scene) => {
-      transformAnimatedMeshes?.(scene);
-
-      // Set HDRI as background
-      scene.createDefaultSkybox(hdrTexture);
-
       // Enable animation blending for all animations
       scene.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
       scene.animationPropertiesOverride.enableBlending = true;
       scene.animationPropertiesOverride.blendingSpeed = 0.05;
-      // Stop all animations by default
-      scene.animationGroups.forEach((animation) => {
-        animation.stop();
-      });
+
       // Save the animation objects for triggering later
       animations = scene.animationGroups;
+
+      // Somehow this breaks camera animations
+      // // Stop all animations by default
+      // scene.animationGroups.forEach((animation) => {
+      //   animation.stop();
+      // });
+
+      transformAnimatedMeshes?.(scene);
+
+      // Set HDRI as background
+      scene.createDefaultSkybox(hdrTexture);
     });
 
     engine.runRenderLoop(() => {
@@ -76,24 +79,31 @@
   });
 
   const triggerNextAnimation = () => {
-    if (animations.length === 0) {
-      return;
-    }
-
-    if (animationIndex < animations.length - 1) {
-      animationIndex++;
-    } else {
-      animationIndex = 0;
-    }
-
     animations[animationIndex].play();
     animationName = animations[animationIndex].name;
+
+    if (animationIndex === animations.length - 1) {
+      animationIndex = 0;
+    } else {
+      animationIndex++;
+    }
+  };
+
+  const toggleAnimation = () => {
+    const anim = animations[animationIndex];
+    if (anim.isPlaying) {
+      anim.stop();
+    } else {
+      anim.start(true);
+    }
   };
 </script>
 
 <!-- <img src="/icon/icon-192x192.png" /> -->
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
 <button class="animateButton" on:click={triggerNextAnimation}>Animate</button>
+<button class="animateButton" on:click={toggleAnimation}>Toggle start/stop</button>
+
 <div class="animationName">Current animation: {animationName}</div>
 
 <style>
@@ -107,7 +117,6 @@
   }
 
   .animateButton {
-    position: absolute;
     top: 1rem;
     left: 1rem;
   }

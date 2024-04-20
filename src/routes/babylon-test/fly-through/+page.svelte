@@ -1,7 +1,6 @@
 <script lang="ts">
   import FlyThrough from '$lib/babylon/fly-through.svelte';
   import { createRainbowGlassMaterial } from '$lib/babylon/materials';
-  import * as BABYLON from '@babylonjs/core';
 </script>
 
 <FlyThrough
