@@ -5,11 +5,18 @@
   import { fade } from 'svelte/transition';
 
   /**
+   * The image used for lighting and reflections on objects
+   *
    * For best performance, convert your .hdr file
    * into .env with these instructions:
    * https://doc.babylonjs.com/features/featuresDeepDive/materials/using/HDREnvironment#creating-a-compressed-environment-texture-using-the-sandbox
    */
-  export let hdriLightingFile = 'test-env-lighting.env';
+  export let hdriLightingFile = 'peppermint_blue.env';
+  /**
+   * The image used for rendering the background
+   */
+  export let hdriBackgroundFile = 'gradient.env';
+  export let backgroundBlur = 0.1;
   export let pathAnimationFile = 'test-path.gltf';
   export let sceneFile = 'test-anim-2.gltf';
   export let transformSceneMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
@@ -35,19 +42,23 @@
     const camera = new BABYLON.UniversalCamera('camera1', new BABYLON.Vector3(0, 2, -20), scene);
     camera.attachControl(canvasRef, true);
 
-    // Setup HDRI lighting
-    const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
+    // Setup HDRI textures
+    const hdrLighting = BABYLON.CubeTexture.CreateFromPrefilteredData(
       `/assets3d/${hdriLightingFile}`,
       scene
     );
-    scene.environmentTexture = hdrTexture;
+    const hdrBackground = BABYLON.CubeTexture.CreateFromPrefilteredData(
+      `/assets3d/${hdriBackgroundFile}`,
+      scene
+    );
 
     // Load camera path from GLTF file with a mesh called "camera_path"
     // Note to self: Do not export this file from Blender with +Y up, the negative numbers are lost
     // Also convert the mesh line to a curve so that vertex order is preserved
     BABYLON.SceneLoader.ImportMesh('', `/assets3d/${pathAnimationFile}`, '', scene, (meshes) => {
-      // Set HDRI as background
-      scene.createDefaultSkybox(hdrTexture);
+      // Set HDRI textures for lighting and background
+      scene.createDefaultSkybox(hdrBackground, true, 10000, backgroundBlur);
+      scene.environmentTexture = hdrLighting;
 
       const mesh = meshes.find((mesh) => mesh.name === 'camera_path');
 

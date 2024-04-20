@@ -5,11 +5,18 @@
   import { fade } from 'svelte/transition';
 
   /**
+   * The image used for lighting and reflections on objects
+   *
    * For best performance, convert your .hdr file
    * into .env with these instructions:
    * https://doc.babylonjs.com/features/featuresDeepDive/materials/using/HDREnvironment#creating-a-compressed-environment-texture-using-the-sandbox
    */
-  export let hdriLightingFile = 'test-env-lighting.env';
+  export let hdriLightingFile = 'peppermint_blue.env';
+  /**
+   * The image used for rendering the background
+   */
+  export let hdriBackgroundFile = 'gradient.env';
+  export let backgroundBlur = 0.1;
   export let animatedMeshesFile = 'test-anim-2.gltf';
   export let transformAnimatedMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
 
@@ -28,12 +35,15 @@
     const camera = new BABYLON.UniversalCamera('camera1', new BABYLON.Vector3(0, 0, -5), scene);
     camera.attachControl(canvasRef, true);
 
-    // Setup HDRI lighting
-    const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
+    // Setup HDRI textures
+    const hdrLighting = BABYLON.CubeTexture.CreateFromPrefilteredData(
       `/assets3d/${hdriLightingFile}`,
       scene
     );
-    scene.environmentTexture = hdrTexture;
+    const hdrBackground = BABYLON.CubeTexture.CreateFromPrefilteredData(
+      `/assets3d/${hdriBackgroundFile}`,
+      scene
+    );
 
     // Load GLTF file with multiple animations.
     // Animation groups correspond to the NLA tracks. To create the shape key
@@ -59,8 +69,9 @@
 
       transformAnimatedMeshes?.(scene);
 
-      // Set HDRI as background
-      scene.createDefaultSkybox(hdrTexture);
+      // Set HDRI textures for lighting and background
+      scene.createDefaultSkybox(hdrBackground, true, 10000, backgroundBlur);
+      scene.environmentTexture = hdrLighting;
     });
 
     engine.runRenderLoop(() => {
