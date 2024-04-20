@@ -5,7 +5,7 @@
 </script>
 
 <MultiAnimationGltf
-  animatedMeshesFile="camera-test.glb"
+  animatedMeshesFile="camera-test-tracking.glb"
   transformAnimatedMeshes={(scene) => {
     scene.meshes.forEach((mesh) => {
       mesh.material = createRainbowGlassMaterial(scene);
