@@ -18,7 +18,7 @@
   export let hdriBackgroundFile = 'gradient.env';
   export let backgroundBlur = 0.1;
   /**
-   * A GLTF or GLB file that should have exactly one animated Camera within it.
+   * A GLTF or GLB file that should have exactly one animated camera within it.
    * It should be exported from Blender with the "Group By NLA Track" option ticked
    * so that all animations are kept separate.
    */
@@ -51,7 +51,12 @@
   let scene: BABYLON.Scene;
 
   let animations: BABYLON.AnimationGroup[] = [];
-  let cameraAnimation: BABYLON.AnimationGroup;
+  /**
+   * The camera and all its constraints need to
+   * contain the word "camera" in the action name.
+   * Rename it accordingly in the NLA viewer.
+   */
+  let cameraAnimations: BABYLON.AnimationGroup[] = [];
   let animationIndex = 0;
   let animationName = '';
 
@@ -79,13 +84,15 @@
       scene
     );
 
-    // Load GLTF file with multiple animations.
-    // Animation groups correspond to the NLA tracks. To create the shape key
-    // animations, go to Dope Sheet view and then choose Shape Key Editor in
-    // the dropdown immediately to the right. Create multiple actions and click
-    // "Push Down" to add it to the NLA tracks.
-    // Actions or shape key animations will play together in the GLTF if they have
-    // the same name on the NLA track.
+    /**
+     * Load GLTF file with multiple animations.
+     * Animation groups correspond to the NLA tracks. To create the shape key
+     * animations, go to Dope Sheet view and then choose Shape Key Editor in
+     * the dropdown immediately to the right. Create multiple actions and click
+     * "Push Down" to add it to the NLA tracks.
+     * Actions or shape key animations will play together in the GLTF if they have
+     * the same name on the NLA track viewer
+     */
     BABYLON.SceneLoader.Append('/assets3d/', animatedMeshesFile, scene, (scene) => {
       // Enable animation blending for all animations
       if (hasAnimationBlending) {
@@ -99,8 +106,8 @@
 
       // Start all animations except for the camera by default
       scene.animationGroups.forEach((anim) => {
-        if (anim.name.includes('CameraAction')) {
-          cameraAnimation = anim;
+        if (anim.name.toLocaleLowerCase().includes('camera')) {
+          cameraAnimations.push(anim);
         } else {
           anim.start(true, 1, 0, meshAnimationLoopTime * FPS_FACTOR);
         }
@@ -158,19 +165,21 @@
   };
 
   const toggleCameraAnimation = () => {
-    if (!cameraAnimation) {
+    if (!cameraAnimations) {
       console.error(
         'Failed to find a camera animation in your file. Open the NLA track view in Blender and make sure you have an action named CameraAction in it and attached to camera object'
       );
       return;
     }
 
-    cameraAnimation.start(
-      false,
-      1,
-      cameraAnimCounter * 30 * FPS_FACTOR,
-      (cameraAnimCounter + 1) * 30 * FPS_FACTOR
-    );
+    cameraAnimations.forEach((a) => {
+      a.start(
+        false,
+        1,
+        cameraAnimCounter * 30 * FPS_FACTOR,
+        (cameraAnimCounter + 1) * 30 * FPS_FACTOR
+      );
+    });
     cameraAnimCounter++;
     if (cameraAnimCounter === maxPointsOfInterest - 1) {
       cameraAnimCounter = 0;
