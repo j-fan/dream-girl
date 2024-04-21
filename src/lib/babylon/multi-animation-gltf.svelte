@@ -21,6 +21,11 @@
    * A GLTF or GLB file that should have exactly one animated camera within it.
    * It should be exported from Blender with the "Group By NLA Track" option ticked
    * so that all animations are kept separate.
+   *
+   * Animated camera with constraints may not be exported correctly. In that
+   * case, select the camera in Blender and choose "Bake action" with the
+   * options 'Visual keying' and "Clear constraints" selected. The go into
+   * the NLA viewer and rename the action back to "Camera".
    */
   export let animatedMeshesFile = 'test-anim.gltf';
   export let transformAnimatedMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
