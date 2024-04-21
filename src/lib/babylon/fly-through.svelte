@@ -18,7 +18,7 @@
   export let hdriBackgroundFile = 'gradient.env';
   export let backgroundBlur = 0.1;
   export let pathAnimationFile = 'test-path.gltf';
-  export let sceneFile = 'test-anim-2.gltf';
+  export let sceneFile = 'test-anim.gltf';
   export let transformSceneMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
 
   let canvasRef: HTMLCanvasElement | null = null;

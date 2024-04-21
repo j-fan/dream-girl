@@ -17,13 +17,23 @@
    */
   export let hdriBackgroundFile = 'gradient.env';
   export let backgroundBlur = 0.1;
-  export let animatedMeshesFile = 'test-anim-2.gltf';
+  /**
+   * A GLTF or GLB file that should have exactly one animated Camera within it.
+   * It should be exported from Blender with the "Group By NLA Track" option ticked
+   * so that all animations are kept separate.
+   */
+  export let animatedMeshesFile = 'test-anim.gltf';
   export let transformAnimatedMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
+  /**
+   * Whether or not to blender between animations. Might cause bugs.
+   */
+  export let hasAnimationBlending: boolean = false;
 
   let canvasRef: HTMLCanvasElement | null = null;
   let scene: BABYLON.Scene;
 
   let animations: BABYLON.AnimationGroup[] = [];
+  let cameraAnimation: BABYLON.AnimationGroup;
   let animationIndex = 0;
   let animationName = '';
 
@@ -54,24 +64,40 @@
     // the same name on the NLA track.
     BABYLON.SceneLoader.Append('/assets3d/', animatedMeshesFile, scene, (scene) => {
       // Enable animation blending for all animations
-      scene.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
-      scene.animationPropertiesOverride.enableBlending = true;
-      scene.animationPropertiesOverride.blendingSpeed = 0.05;
+      if (hasAnimationBlending) {
+        scene.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
+        scene.animationPropertiesOverride.enableBlending = true;
+        scene.animationPropertiesOverride.blendingSpeed = 0.05;
+      }
 
       // Save the animation objects for triggering later
       animations = scene.animationGroups;
 
-      // Somehow this breaks camera animations
-      // // Stop all animations by default
-      // scene.animationGroups.forEach((animation) => {
-      //   animation.stop();
-      // });
+      // Start all animations except for the camera by default
+      scene.animationGroups.forEach((anim) => {
+        if (anim.name.includes('CameraAction')) {
+          cameraAnimation = anim;
+        } else {
+          anim.play(true);
+        }
+      });
 
       transformAnimatedMeshes?.(scene);
 
       // Set HDRI textures for lighting and background
       scene.createDefaultSkybox(hdrBackground, true, 10000, backgroundBlur);
       scene.environmentTexture = hdrLighting;
+
+      if (scene.cameras.length === 2) {
+        // Use the camera from the GLTF file
+        scene.activeCamera = scene.cameras[1];
+      } else {
+        console.error(
+          scene.cameras.length < 2
+            ? 'Failed to find a camera in the GLTF file'
+            : 'Please ensure you have exactly one camera in your GLTF file'
+        );
+      }
     });
 
     engine.runRenderLoop(() => {
@@ -89,15 +115,13 @@
     };
   });
 
-  const triggerNextAnimation = () => {
-    animations[animationIndex].play();
-    animationName = animations[animationIndex].name;
-
+  const nextAnimation = () => {
     if (animationIndex === animations.length - 1) {
       animationIndex = 0;
     } else {
       animationIndex++;
     }
+    animationName = animations[animationIndex].name;
   };
 
   const toggleAnimation = () => {
@@ -108,12 +132,25 @@
       anim.start(true);
     }
   };
+
+  const toggleCameraAnimation = () => {
+    if (!cameraAnimation) {
+      console.error(
+        'Failed to find a camera animation in your file. Open the NLA track view in Blender and make sure you have an action named CameraAction in it and attached to camera object'
+      );
+      return;
+    }
+
+    // TODO: Implement logic to move the camera to the next point of interest
+    cameraAnimation.start(false, 1, 0, 60);
+  };
 </script>
 
 <!-- <img src="/icon/icon-192x192.png" /> -->
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
-<button class="animateButton" on:click={triggerNextAnimation}>Animate</button>
+<button class="animateButton" on:click={nextAnimation}>Select next animation</button>
 <button class="animateButton" on:click={toggleAnimation}>Toggle start/stop</button>
+<button class="animateButton" on:click={toggleCameraAnimation}>Toggle camera animation</button>
 
 <div class="animationName">Current animation: {animationName}</div>
 
