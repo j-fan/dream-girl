@@ -5,11 +5,12 @@
 </script>
 
 <MultiAnimationGltf
-  animatedMeshesFile="everything.glb"
+  animatedMeshesFile="intro-scene.glb"
   transformAnimatedMeshes={(scene) => {
     scene.meshes.forEach((mesh) => {
-      mesh.material = createRainbowGlassMaterial(scene);
-      mesh.rotation = new BABYLON.Vector3(0, 1, 0);
+      if (mesh?.material?.name === 'Glass_rainbow') {
+        mesh.material = createRainbowGlassMaterial(scene);
+      }
     });
   }}
 />

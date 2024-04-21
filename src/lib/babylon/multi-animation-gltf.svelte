@@ -40,6 +40,12 @@
    * and may have a different animation duration.
    */
   export let meshAnimationLoopTime = 100;
+  /**
+   * How many points of interest in the camera animation
+   * that we should stop at. It assumes there is one
+   * point at every `fileFrameRate` frame.
+   */
+  export let maxPointsOfInterest = 6;
 
   let canvasRef: HTMLCanvasElement | null = null;
   let scene: BABYLON.Scene;
@@ -48,6 +54,8 @@
   let cameraAnimation: BABYLON.AnimationGroup;
   let animationIndex = 0;
   let animationName = '';
+
+  let cameraAnimCounter = 0;
 
   // The GLTF import defaults the frame rate to 60
   const GLTF_FRAME_RATE = 60;
@@ -157,8 +165,16 @@
       return;
     }
 
-    // TODO: Implement logic to move the camera to the next point of interest
-    cameraAnimation.start(false, 1, 0, 30 * FPS_FACTOR);
+    cameraAnimation.start(
+      false,
+      1,
+      cameraAnimCounter * 30 * FPS_FACTOR,
+      (cameraAnimCounter + 1) * 30 * FPS_FACTOR
+    );
+    cameraAnimCounter++;
+    if (cameraAnimCounter === maxPointsOfInterest - 1) {
+      cameraAnimCounter = 0;
+    }
   };
 </script>
 
