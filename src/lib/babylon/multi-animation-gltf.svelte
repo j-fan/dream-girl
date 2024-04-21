@@ -25,9 +25,21 @@
   export let animatedMeshesFile = 'test-anim.gltf';
   export let transformAnimatedMeshes: ((scene: BABYLON.Scene) => void) | undefined = undefined;
   /**
-   * Whether or not to blender between animations. Might cause bugs.
+   * Whether or not to blend between animations. Might cause bugs.
    */
   export let hasAnimationBlending: boolean = false;
+  /**
+   * The frame rate of the animations you created in your 3D software
+   */
+  export let fileFrameRate = 30;
+  /**
+   * How long in frames does it take for every mesh
+   * to complete a single animation cycle. This
+   * is needed to decouple mesh animations from
+   * the camera animation, which does not loop
+   * and may have a different animation duration.
+   */
+  export let meshAnimationLoopTime = 100;
 
   let canvasRef: HTMLCanvasElement | null = null;
   let scene: BABYLON.Scene;
@@ -36,6 +48,10 @@
   let cameraAnimation: BABYLON.AnimationGroup;
   let animationIndex = 0;
   let animationName = '';
+
+  // The GLTF import defaults the frame rate to 60
+  const GLTF_FRAME_RATE = 60;
+  let FPS_FACTOR = GLTF_FRAME_RATE / fileFrameRate;
 
   onMount(() => {
     const engine = new BABYLON.Engine(canvasRef, true);
@@ -78,7 +94,7 @@
         if (anim.name.includes('CameraAction')) {
           cameraAnimation = anim;
         } else {
-          anim.play(true);
+          anim.start(true, 1, 0, meshAnimationLoopTime * FPS_FACTOR);
         }
       });
 
@@ -142,7 +158,7 @@
     }
 
     // TODO: Implement logic to move the camera to the next point of interest
-    cameraAnimation.start(false, 1, 0, 60);
+    cameraAnimation.start(false, 1, 0, 30 * FPS_FACTOR);
   };
 </script>
 
