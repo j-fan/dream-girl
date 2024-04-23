@@ -101,12 +101,12 @@
 </script>
 
 {#if showDebug}
-  <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
   <button class="animateButton" on:click={nextAnimation}>Select next animation</button>
   <button class="animateButton" on:click={toggleAnimation}>Toggle start/stop</button>
   <button class="animateButton" on:click={toggleCameraAnimation}>Toggle camera animation</button>
   <div class="animationName">Current animation: {animationName}</div>
 {/if}
+<canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
 
 <style>
   canvas {
