@@ -2,11 +2,21 @@
   import { fade } from 'svelte/transition';
   import { quiz } from './intro-quiz';
   import Button from './button.svelte';
+  import TextInput from './text-input.svelte';
 
-  export let step = 2;
-  export let maxSteps = 1;
+  export let maxSteps: number;
+  export let onNext: ((step: number) => void) | undefined = undefined;
 
-  $: quizItem = quiz[step - 1];
+  let step = 0;
+  $: quizItem = quiz[step];
+
+  const handleNextStep = () => {
+    step++;
+
+    if (step < maxSteps) {
+      onNext?.(step);
+    }
+  };
 </script>
 
 <div class="container" transition:fade={{ delay: 500 }}>
@@ -17,9 +27,11 @@
         <Button>{option}</Button>
       {/each}
     {:else}
-      <input type="text" />
+      <TextInput placeholder={quizItem.placeholder} />
     {/if}
+    <Button on:click={handleNextStep}>Next</Button>
   </div>
+  <slot name="button" />
 </div>
 
 <style>
@@ -33,6 +45,10 @@
   }
 
   .question-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
     color: var(--c-white);
     font-size: 1.5rem;
 
@@ -40,10 +56,11 @@
     border: 1px solid var(--c-white-semi-50);
 
     background-image: url('/img/noise.svg');
+    background-color: rgba(31, 22, 94, 0.5);
     backdrop-filter: blur(10px);
 
     width: 400px;
-    height: 500px;
+    min-height: 500px;
 
     margin-left: 5vw;
     margin-right: 5vw;

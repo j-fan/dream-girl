@@ -20,6 +20,7 @@
 
   button:hover,
   button:active {
+    outline: 2px dotted var(--c-white);
     background-color: var(--c-white-semi-30);
     cursor: pointer;
   }

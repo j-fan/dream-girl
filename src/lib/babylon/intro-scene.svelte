@@ -7,6 +7,7 @@
   import { createAlphaGlassMaterial, createRainbowGlassMaterial } from './materials';
   import LoadingScreen from '$lib/components/loading-screen.svelte';
   import IntroQuiz from '$lib/components/intro-quiz.svelte';
+  import Button from '$lib/components/button.svelte';
 
   export let showDebug = false;
 
@@ -115,7 +116,7 @@
     }
   };
 
-  const toggleCameraAnimation = () => {
+  const goToNextCameraPoint = () => {
     if (!cameraAnimations) {
       console.error(
         'Failed to find a camera animation in your file. Open the NLA track view in Blender and make sure you have an action named CameraAction in it and attached to camera object'
@@ -136,13 +137,13 @@
 {#if showDebug}
   <button class="animateButton" on:click={nextAnimation}>Select next animation</button>
   <button class="animateButton" on:click={toggleAnimation}>Toggle start/stop</button>
-  <button class="animateButton" on:click={toggleCameraAnimation}>Toggle camera animation</button>
+  <button class="animateButton" on:click={goToNextCameraPoint}>Toggle camera animation</button>
   <div class="animationName">Current animation: {animationName}</div>
 {/if}
 
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
 <LoadingScreen progress={loadingProgress} autoProceed />
-<IntroQuiz />
+<IntroQuiz maxSteps={6} onNext={goToNextCameraPoint} />
 
 <style>
   canvas {

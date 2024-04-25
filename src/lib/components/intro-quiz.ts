@@ -2,6 +2,7 @@ type QuizQuestion =
   | {
       question: string;
       type: 'open';
+      placeholder?: string;
     }
   | {
       question: string;
@@ -12,7 +13,8 @@ type QuizQuestion =
 export const quiz: QuizQuestion[] = [
   {
     question: 'What is your name?',
-    type: 'open'
+    type: 'open',
+    placeholder: 'Enter your name'
   },
   {
     question: 'What is your gender?',
