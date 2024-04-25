@@ -25,9 +25,9 @@
 
     pipeline.bloomEnabled = true;
     pipeline.bloomThreshold = 0.75;
-    pipeline.bloomWeight = 1.5;
-    pipeline.bloomKernel = 64;
-    pipeline.bloomScale = 1;
+    pipeline.bloomWeight = 1;
+    pipeline.bloomKernel = 128;
+    pipeline.bloomScale = 0.5;
 
     pipeline.chromaticAberrationEnabled = true;
     pipeline.chromaticAberration.aberrationAmount = 100;
@@ -150,6 +150,8 @@
     height: 100%;
     /* pointer-events: none; */
     z-index: -1;
+
+    filter: contrast(1.1) saturate(1.2) hue-rotate(5deg);
   }
 
   .animateButton {
