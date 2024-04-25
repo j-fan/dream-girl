@@ -29,7 +29,10 @@ type Options = {
    * the NLA viewer and rename the action back to "Camera".
    */
   animatedMeshesFile?: string;
-  transformAnimatedMeshes?: (scene: BABYLON.Scene) => void;
+  /**
+   * Apply additional changes the scene after it is initialized
+   */
+  transformScene?: (scene: BABYLON.Scene) => void;
   /**
    * Whether or not to blend between animations. Might cause bugs.
    */
@@ -63,7 +66,7 @@ export const initMultiAnimationScene = ({
   hdriBackgroundFile = 'gradient.env',
   backgroundBlur = 0.1,
   animatedMeshesFile = 'test-anim.gltf',
-  transformAnimatedMeshes,
+  transformScene,
   hasAnimationBlending = false,
   fileFrameRate = 30,
   meshAnimationLoopTime = 100,
@@ -126,8 +129,6 @@ export const initMultiAnimationScene = ({
         }
       });
 
-      transformAnimatedMeshes?.(scene);
-
       // Set HDRI textures for lighting and background
       scene.createDefaultSkybox(hdrBackground, true, 10000, backgroundBlur);
       scene.environmentTexture = hdrLighting;
@@ -142,6 +143,8 @@ export const initMultiAnimationScene = ({
             : 'Please ensure you have exactly one camera in your GLTF file'
         );
       }
+
+      transformScene?.(scene);
     },
     onProgress,
     onSuccess

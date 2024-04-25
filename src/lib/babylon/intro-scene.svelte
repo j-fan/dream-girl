@@ -10,7 +10,7 @@
   export let showDebug = false;
 
   const animatedMeshesFile = 'intro-scene.glb';
-  const transformAnimatedMeshes = (scene: BABYLON.Scene) => {
+  const transformScene = (scene: BABYLON.Scene) => {
     scene.meshes.forEach((mesh) => {
       if (mesh?.material?.name === 'Glass_rainbow') {
         mesh.material = createRainbowGlassMaterial(scene);
@@ -18,6 +18,20 @@
         mesh.material = createAlphaGlassMaterial(scene);
       }
     });
+
+    const pipeline = new BABYLON.DefaultRenderingPipeline('defaultPipeline', false, scene, [
+      scene.activeCamera!
+    ]);
+
+    pipeline.bloomEnabled = true;
+    pipeline.bloomThreshold = 0.75;
+    pipeline.bloomWeight = 1.5;
+    pipeline.bloomKernel = 64;
+    pipeline.bloomScale = 1;
+
+    pipeline.chromaticAberrationEnabled = true;
+    pipeline.chromaticAberration.aberrationAmount = 100;
+    pipeline.chromaticAberration.radialIntensity = 3;
   };
 
   /**
@@ -44,7 +58,7 @@
     const { engine, ...sceneProps } = initMultiAnimationScene({
       canvasRef,
       animatedMeshesFile,
-      transformAnimatedMeshes,
+      transformScene,
       onProgress
     });
     scene = sceneProps.scene;

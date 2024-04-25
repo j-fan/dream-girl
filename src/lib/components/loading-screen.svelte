@@ -6,10 +6,15 @@
    * Loading progress value 0 - 100
    */
   export let progress = 0;
+  /**
+   * Whether to automatically hide the progress scene
+   * when progress is 100%
+   */
+  export let autoProceed = false;
 
   const bgImgSrc = '/img/loading-screen.jpg';
   let showbgImage = false;
-  let hasEntered = false;
+  $: hasEntered = autoProceed ? progress === 100 : false;
   $: isReady = progress === 100;
 
   onMount(() => {
@@ -36,7 +41,6 @@
         <div transition:scale>
           <Button
             on:click={() => {
-              console.log('here');
               hasEntered = true;
             }}>Enter</Button
           >
