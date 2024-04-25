@@ -1,20 +1,27 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition';
+  import { fade, scale } from 'svelte/transition';
   import { quiz } from './intro-quiz';
   import Button from './button.svelte';
-  import TextInput from './text-input.svelte';
+  import TextInput from './input.svelte';
 
   export let maxSteps: number;
   export let onNext: ((step: number) => void) | undefined = undefined;
+  export let onFinish: (() => void) | undefined = undefined;
 
   let step = 0;
   $: quizItem = quiz[step];
 
+  let currentAnswer = '';
+  console.log(currentAnswer);
+
   const handleNextStep = () => {
+    currentAnswer = '';
     step++;
 
     if (step < maxSteps) {
       onNext?.(step);
+    } else {
+      onFinish?.();
     }
   };
 </script>
@@ -24,12 +31,24 @@
     <p>{quizItem.question}</p>
     {#if quizItem.type === 'multiple-choice'}
       {#each quizItem.options as option}
-        <Button>{option}</Button>
+        <Button
+          on:click={() => {
+            currentAnswer = option;
+          }}>{option}</Button
+        >
       {/each}
     {:else}
-      <TextInput placeholder={quizItem.placeholder} />
+      <TextInput
+        type={quizItem.inputType}
+        placeholder={quizItem.placeholder}
+        bind:value={currentAnswer}
+      />
     {/if}
-    <Button on:click={handleNextStep}>Next</Button>
+    {#if currentAnswer}
+      <div class="button-container" in:scale>
+        <Button on:click={handleNextStep}>Next</Button>
+      </div>
+    {/if}
   </div>
   <slot name="button" />
 </div>
@@ -65,5 +84,9 @@
     margin-left: 5vw;
     margin-right: 5vw;
     padding: 1rem;
+  }
+
+  .button-container {
+    width: fit-content;
   }
 </style>

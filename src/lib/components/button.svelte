@@ -1,10 +1,8 @@
 <script lang="ts">
-  import type { HTMLButtonAttributes } from 'svelte/elements';
-
-  export let props: HTMLButtonAttributes | undefined = undefined;
+  export let disabled: boolean = false;
 </script>
 
-<button {...props} on:click>
+<button {disabled} on:click>
   <slot />
 </button>
 
@@ -19,7 +17,8 @@
   }
 
   button:hover,
-  button:active {
+  button:active,
+  button:focus {
     outline: 2px dotted var(--c-white);
     background-color: var(--c-white-semi-30);
     cursor: pointer;

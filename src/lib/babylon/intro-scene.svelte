@@ -7,7 +7,6 @@
   import { createAlphaGlassMaterial, createRainbowGlassMaterial } from './materials';
   import LoadingScreen from '$lib/components/loading-screen.svelte';
   import IntroQuiz from '$lib/components/intro-quiz.svelte';
-  import Button from '$lib/components/button.svelte';
 
   export let showDebug = false;
 
@@ -143,7 +142,13 @@
 
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
 <LoadingScreen progress={loadingProgress} autoProceed />
-<IntroQuiz maxSteps={6} onNext={goToNextCameraPoint} />
+<IntroQuiz
+  maxSteps={6}
+  onNext={goToNextCameraPoint}
+  onFinish={() => {
+    alert('finished');
+  }}
+/>
 
 <style>
   canvas {
