@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade, scale } from 'svelte/transition';
-  import { quiz } from './intro-quiz';
+  import { quiz, type QuizAnswers } from './intro-quiz';
   import Button from './button.svelte';
   import TextInput from './input.svelte';
 
@@ -12,17 +12,27 @@
   $: quizItem = quiz[step];
 
   let currentAnswer = '';
-  console.log(currentAnswer);
+  const allAnswers: QuizAnswers = [];
 
   const handleNextStep = () => {
-    currentAnswer = '';
+    if (step >= 0 && step <= maxSteps - 1) {
+      allAnswers.push({
+        key: quizItem.key,
+        question: quizItem.question,
+        answer: currentAnswer
+      });
+    }
+
     step++;
 
     if (step < maxSteps) {
       onNext?.(step);
     } else {
       onFinish?.();
+      step = maxSteps;
     }
+
+    currentAnswer = '';
   };
 </script>
 
