@@ -1,4 +1,5 @@
 <script lang="ts">
+  import '../app.css';
   import { goto } from '$app/navigation';
   import InactivityTimeout from '$lib/components/inactivity-timeout.svelte';
   import { FirebaseApp } from 'sveltefire';
@@ -43,7 +44,7 @@
 </svelte:head>
 
 <FirebaseApp {auth} {firestore}>
-  <InactivityTimeout {onTimeout} />
+  <InactivityTimeout {onTimeout} maxMinutes={60} />
   <main>
     <slot />
   </main>

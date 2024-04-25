@@ -7,22 +7,10 @@
   /* Palette: https://coolors.co/7eb1b3-daefb3-ea9e8d-d64550-1c2826 */
   --c-white: #fff;
   --c-black: #000;
-  --c-dark-green: #1c2826;
-  --c-red: #d64550;
-  --c-pink: #ea9e8d;
-  --c-light-green: #daefb3;
-  --c-teal: #7eb1b3;
-  --c-teal-lighter: #8bc2c4;
-
-  /* Border style */
-  --border-width: 2px;
-  --border-style: var(--border-width) solid var(--c-dark-green);
-  --border-radius: 1rem;
-
-  /* Shadows */
-  --drop-shadow-sm: 2px 2px 0 1px rgba(0, 0, 0, 1);
-  --drop-shadow-md: 6px 6px 0 1px rgba(0, 0, 0, 1);
-  --box-shadow-outline: 0 0 0 var(--border-width) var(--c-dark-green);
+  --c-navy: #0E0C27;
+  --c-dark-blue: #312A87;
+  --c-blue: #655DCC;
+  --c-light-blue: #ABA7E3;
 }
 
 /*

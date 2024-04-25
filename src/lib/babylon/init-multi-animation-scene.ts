@@ -50,6 +50,9 @@ type Options = {
    * The <canvas> element Babylon will use
    */
   canvasRef: HTMLCanvasElement | null;
+
+  onSuccess?: (scene: BABYLON.Scene) => void;
+  onProgress?: BABYLON.Nullable<(event: BABYLON.ISceneLoaderProgressEvent) => void>;
 };
 
 // The GLTF import defaults the frame rate to 60
@@ -64,7 +67,9 @@ export const initMultiAnimationScene = ({
   hasAnimationBlending = false,
   fileFrameRate = 30,
   meshAnimationLoopTime = 100,
-  canvasRef
+  canvasRef,
+  onProgress,
+  onSuccess
 }: Options) => {
   const fpsFactor = GLTF_FRAME_RATE / fileFrameRate;
   const animations: BABYLON.AnimationGroup[] = [];
@@ -72,6 +77,9 @@ export const initMultiAnimationScene = ({
 
   const engine = new BABYLON.Engine(canvasRef, true);
   const scene = new BABYLON.Scene(engine);
+
+  // Do not show default loading screen
+  BABYLON.SceneLoaderFlags.ShowLoadingScreen = false;
 
   // Setup default camera
   const camera = new BABYLON.UniversalCamera('camera1', new BABYLON.Vector3(0, 0, -5), scene);
@@ -96,41 +104,48 @@ export const initMultiAnimationScene = ({
    * Actions or shape key animations will play together in the GLTF if they have
    * the same name on the NLA track viewer
    */
-  BABYLON.SceneLoader.Append('/assets3d/', animatedMeshesFile, scene, (scene) => {
-    // Enable animation blending for all animations if required
-    if (hasAnimationBlending) {
-      scene.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
-      scene.animationPropertiesOverride.enableBlending = true;
-      scene.animationPropertiesOverride.blendingSpeed = 0.05;
-    }
-
-    // Start all animations except for the camera by default
-    scene.animationGroups.forEach((anim) => {
-      if (anim.name.toLocaleLowerCase().includes('camera')) {
-        cameraAnimations.push(anim);
-      } else {
-        animations.push(anim);
-        anim.start(true, 1, 0, meshAnimationLoopTime * fpsFactor);
+  BABYLON.SceneLoader.Append(
+    '/assets3d/',
+    animatedMeshesFile,
+    scene,
+    (scene) => {
+      // Enable animation blending for all animations if required
+      if (hasAnimationBlending) {
+        scene.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
+        scene.animationPropertiesOverride.enableBlending = true;
+        scene.animationPropertiesOverride.blendingSpeed = 0.05;
       }
-    });
 
-    transformAnimatedMeshes?.(scene);
+      // Start all animations except for the camera by default
+      scene.animationGroups.forEach((anim) => {
+        if (anim.name.toLocaleLowerCase().includes('camera')) {
+          cameraAnimations.push(anim);
+        } else {
+          animations.push(anim);
+          anim.start(true, 1, 0, meshAnimationLoopTime * fpsFactor);
+        }
+      });
 
-    // Set HDRI textures for lighting and background
-    scene.createDefaultSkybox(hdrBackground, true, 10000, backgroundBlur);
-    scene.environmentTexture = hdrLighting;
+      transformAnimatedMeshes?.(scene);
 
-    if (scene.cameras.length === 2) {
-      // Use the camera from the GLTF file
-      scene.activeCamera = scene.cameras[1];
-    } else {
-      console.error(
-        scene.cameras.length < 2
-          ? 'Failed to find a camera in the GLTF file'
-          : 'Please ensure you have exactly one camera in your GLTF file'
-      );
-    }
-  });
+      // Set HDRI textures for lighting and background
+      scene.createDefaultSkybox(hdrBackground, true, 10000, backgroundBlur);
+      scene.environmentTexture = hdrLighting;
+
+      if (scene.cameras.length === 2) {
+        // Use the camera from the GLTF file
+        scene.activeCamera = scene.cameras[1];
+      } else {
+        console.error(
+          scene.cameras.length < 2
+            ? 'Failed to find a camera in the GLTF file'
+            : 'Please ensure you have exactly one camera in your GLTF file'
+        );
+      }
+    },
+    onProgress,
+    onSuccess
+  );
 
   return {
     scene,

@@ -5,6 +5,7 @@
   import { fade } from 'svelte/transition';
   import { initMultiAnimationScene } from './init-multi-animation-scene';
   import { createAlphaGlassMaterial, createRainbowGlassMaterial } from './materials';
+  import LoadingScreen from '$lib/components/loading-screen.svelte';
 
   export let showDebug = false;
 
@@ -37,17 +38,23 @@
   let animationName = '';
 
   let fpsFactor = 1;
+  let loadingProgress = 0;
 
   onMount(() => {
     const { engine, ...sceneProps } = initMultiAnimationScene({
       canvasRef,
       animatedMeshesFile,
-      transformAnimatedMeshes
+      transformAnimatedMeshes,
+      onProgress
     });
     scene = sceneProps.scene;
     cameraAnimations = sceneProps.cameraAnimations;
     animations = sceneProps.animations;
     fpsFactor = sceneProps.fpsFactor;
+
+    scene.executeWhenReady(() => {
+      loadingProgress = 100;
+    });
 
     engine.runRenderLoop(() => {
       scene.render();
@@ -63,6 +70,17 @@
       window.removeEventListener('resize', resizeBabylon);
     };
   });
+
+  const onProgress = (event: BABYLON.ISceneLoaderProgressEvent) => {
+    const percent = (event.loaded / event.total) * 100;
+
+    // Scene is not truly ready until scene.executeWhenReady is called
+    if (percent === 100) {
+      loadingProgress = 99;
+    } else {
+      loadingProgress = percent;
+    }
+  };
 
   const nextAnimation = () => {
     if (animationIndex === animations.length - 1) {
@@ -106,7 +124,9 @@
   <button class="animateButton" on:click={toggleCameraAnimation}>Toggle camera animation</button>
   <div class="animationName">Current animation: {animationName}</div>
 {/if}
+
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
+<LoadingScreen progress={loadingProgress} />
 
 <style>
   canvas {
