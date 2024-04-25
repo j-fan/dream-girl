@@ -2,4 +2,4 @@
   import IntroScene from '$lib/babylon/intro-scene.svelte';
 </script>
 
-<IntroScene showDebug />
+<IntroScene showDebug={false} />

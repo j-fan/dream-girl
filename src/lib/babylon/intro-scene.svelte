@@ -6,6 +6,7 @@
   import { initMultiAnimationScene } from './init-multi-animation-scene';
   import { createAlphaGlassMaterial, createRainbowGlassMaterial } from './materials';
   import LoadingScreen from '$lib/components/loading-screen.svelte';
+  import IntroQuiz from '$lib/components/intro-quiz.svelte';
 
   export let showDebug = false;
 
@@ -25,7 +26,7 @@
 
     pipeline.bloomEnabled = true;
     pipeline.bloomThreshold = 0.75;
-    pipeline.bloomWeight = 1;
+    pipeline.bloomWeight = 1.5;
     pipeline.bloomKernel = 128;
     pipeline.bloomScale = 0.5;
 
@@ -140,7 +141,8 @@
 {/if}
 
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
-<LoadingScreen progress={loadingProgress} />
+<LoadingScreen progress={loadingProgress} autoProceed />
+<IntroQuiz />
 
 <style>
   canvas {

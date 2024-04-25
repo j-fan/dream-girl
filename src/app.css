@@ -3,9 +3,13 @@
 :root {
   font-family: 'Inconsolata', monospace;
 
-  /* Palette: https://coolors.co/7eb1b3-daefb3-ea9e8d-d64550-1c2826 */
   --c-white: #fff;
-  --c-white-semi: rgba(255,255,255,0.3);
+  --c-white-semi-20: rgba(255,255,255,0.2);
+  --c-white-semi-30: rgba(255,255,255,0.3);
+  --c-white-semi-50: rgba(255,255,255,0.5);
+  --c-white-semi-70: rgba(255,255,255,0.7);
+
+
   --c-black: #000;
   --c-navy: #0E0C27;
   --c-dark-blue: #312A87;
