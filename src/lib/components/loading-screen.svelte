@@ -7,39 +7,44 @@
    */
   export let progress = 0;
 
+  const bgImgSrc = '/img/loading-screen.jpg';
   let showbgImage = false;
   let hasEntered = false;
   $: isReady = progress === 100;
 
   onMount(() => {
-    showbgImage = true;
+    const bgImg = new Image();
+    bgImg.onload = function () {
+      showbgImage = true;
+    };
+    // trigger loading
+    bgImg.src = bgImgSrc;
   });
 </script>
 
 {#if !hasEntered}
   <div class="background" transition:slide={{ axis: 'y', duration: 1000 }}>
     {#if showbgImage}
-      <div
-        class="loading-screen-image"
-        transition:slide={{ axis: 'y', duration: 1000, delay: 1500 }}
-      />
+      <div class="loading-screen-image" transition:fade={{ duration: 1000 }} />
     {/if}
   </div>
 
   <div class="content" transition:scale={{ duration: 500 }}>
     <img class="logo" src="/img/logo.png" alt="Dream girl logo" />
-    {#if isReady}
-      <div transition:fade>
-        <Button
-          on:click={() => {
-            console.log('here');
-            hasEntered = true;
-          }}>Enter</Button
-        >
-      </div>
-    {:else}
-      <span class="progress-amount">{progress.toFixed(0)}%</span>
-    {/if}
+    <div class="bottom-content">
+      {#if isReady}
+        <div transition:scale>
+          <Button
+            on:click={() => {
+              console.log('here');
+              hasEntered = true;
+            }}>Enter</Button
+          >
+        </div>
+      {:else}
+        <span class="progress-amount">{progress.toFixed(0)}%</span>
+      {/if}
+    </div>
   </div>
 {/if}
 
@@ -54,10 +59,12 @@
   .loading-screen-image {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
 
-    background-image: url('/img/loading-screen.jpg');
+    background: url('/img/loading-screen.jpg');
+    background-size: calc(100vh / 9 * 16) 100vh;
     background-position: center center;
-    background-size: cover;
   }
 
   .content {
@@ -71,16 +78,20 @@
   }
 
   .logo {
-    position: relative;
     width: 500px;
     max-width: 100%;
     object-fit: contain;
+    aspect-ratio: 8 / 5;
   }
 
   .progress-amount {
-    position: relative;
-    font-size: 3rem;
+    font-size: 2rem;
     color: var(--c-white);
+  }
+
+  .bottom-content {
+    padding-top: 2rem;
     padding-bottom: 4rem;
+    height: 100px;
   }
 </style>
