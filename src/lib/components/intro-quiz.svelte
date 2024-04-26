@@ -3,6 +3,7 @@
   import { quiz, type QuizAnswers } from './intro-quiz';
   import Button from './button.svelte';
   import TextInput from './input.svelte';
+  import { quizAnswers } from '$lib/stores/user';
 
   export let maxSteps: number;
   export let onNext: ((step: number) => void) | undefined = undefined;
@@ -12,14 +13,16 @@
   $: quizItem = quiz[step];
 
   let currentAnswer = '';
-  const allAnswers: QuizAnswers = [];
 
   const handleNextStep = () => {
-    allAnswers.push({
-      key: quizItem.key,
-      question: quizItem.question,
-      answer: currentAnswer
-    });
+    quizAnswers.set([
+      ...$quizAnswers,
+      {
+        key: quizItem.key,
+        question: quizItem.question,
+        answer: currentAnswer
+      }
+    ]);
 
     if (step === maxSteps - 1) {
       onFinish?.();
