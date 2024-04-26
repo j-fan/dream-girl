@@ -1,8 +1,10 @@
 <script lang="ts">
   export let disabled: boolean = false;
+  export let background: 'dark' | 'none' = 'none';
+  export let type: 'submit' | 'button' = 'button';
 </script>
 
-<button {disabled} on:click>
+<button {type} {disabled} on:click class={background === 'dark' ? 'dark-bg' : undefined}>
   <slot />
 </button>
 
@@ -14,6 +16,7 @@
     border: 1px solid var(--c-white-semi-50);
     border-radius: 2rem;
     padding: 0.5rem 1rem;
+    min-width: 54px;
   }
 
   button:hover,
@@ -26,5 +29,18 @@
 
   button:active {
     transform: scale(0.9);
+  }
+
+  .dark-bg {
+    background-color: var(--c-navy-semi-50);
+    backdrop-filter: blur(10px);
+  }
+
+  button.dark-bg:hover,
+  button.dark-bg:active,
+  button.dark-bg:focus {
+    outline: 2px dotted var(--c-white);
+    background-color: var(--c-navy-semi-50);
+    cursor: pointer;
   }
 </style>

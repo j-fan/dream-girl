@@ -15,9 +15,8 @@ export const POST = async (event) => {
 
   if (!data.history || data.history.length === 1) {
     messages.push({ role: 'system', content: systemPrompt });
-  } else {
-    messages.push(...data.history);
   }
+  messages.push(...(data.history || []));
 
   // Occasionally remind the AI who it is
   if (messages.length % 15 === 0) {

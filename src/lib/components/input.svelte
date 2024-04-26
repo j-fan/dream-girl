@@ -2,8 +2,10 @@
   import type { FormEventHandler } from 'svelte/elements';
 
   export let placeholder: string | undefined = undefined;
-  export let value: string;
+  export let value: string | undefined = undefined;
   export let type: 'text' | 'number' = 'text';
+  export let name: string | undefined = undefined;
+  export let background: 'dark' | 'none' = 'none';
 
   const handleInput: FormEventHandler<HTMLInputElement> = (e) => {
     const newValue = e.currentTarget.value;
@@ -20,14 +22,18 @@
 
 <input
   type="text"
-  inputmode={type === 'number' ? 'numeric' : undefined}
+  {name}
   {placeholder}
+  inputmode={type === 'number' ? 'numeric' : undefined}
+  class={background === 'dark' ? 'dark-bg' : undefined}
   bind:value
   on:input={handleInput}
+  autocomplete="off"
 />
 
 <style>
   input {
+    width: 100%;
     font-size: 1.5rem;
     color: var(--c-white);
     background: transparent;
@@ -42,5 +48,10 @@
   input:focus {
     outline: 2px dotted var(--c-white);
     cursor: pointer;
+  }
+
+  .dark-bg {
+    background-color: var(--c-navy-semi-50);
+    backdrop-filter: blur(10px);
   }
 </style>

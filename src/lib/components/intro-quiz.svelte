@@ -83,7 +83,7 @@
     border: 1px solid var(--c-white-semi-50);
 
     background-image: url('/img/noise.svg');
-    background-color: rgba(31, 22, 94, 0.5);
+    background-color: var(--c-navy-semi-50);
     backdrop-filter: blur(10px);
 
     width: 400px;

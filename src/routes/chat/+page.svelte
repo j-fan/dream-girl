@@ -2,6 +2,9 @@
   import type { EventHandler } from 'svelte/elements';
   import type { ChatFormData, ChatRequest, ChatResponse } from './api-types';
   import { quizAnswers } from '$lib/stores/user';
+  import Button from '$lib/components/button.svelte';
+  import Input from '$lib/components/input.svelte';
+  import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
 
   let responseData: ChatResponse = {
     history: [],
@@ -12,7 +15,11 @@
   const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
     const formData: ChatFormData = Object.fromEntries(new FormData(event.currentTarget));
 
-    responseData.history.push({ role: 'user', content: formData.message || '' });
+    if (!formData.message) {
+      return;
+    }
+
+    responseData.history.push({ role: 'user', content: formData.message });
 
     // trigger UI update
     responseData = {
@@ -44,55 +51,69 @@
   };
 </script>
 
-<div class="container">
-  <form class="section" method="POST" on:submit|preventDefault={handleSubmit}>
-    <label>
-      Enter message
-      <textarea name="message" rows="6"></textarea>
-    </label>
-    <button>Submit</button>
-  </form>
+<div class="page-container">
+  <div class="content-container">
+    <div class="message-responses">
+      {#if responseData.history}
+        {#each responseData.history as historyItem}
+          {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
+            <p>{historyItem.role}: {historyItem.content}</p>
+          {/if}
+        {/each}
+      {/if}
+      {#if isLoading}
+        Loading reply...
+      {/if}
+    </div>
 
-  <div class="section">
-    {#if responseData.history}
-      {#each responseData.history as historyItem}
-        {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
-          <p>{historyItem.role}: {historyItem.content}</p>
-        {/if}
-      {/each}
-    {/if}
-    {#if isLoading}
-      Loading reply...
-    {/if}
+    <form class="send-message-area" method="POST" on:submit|preventDefault={handleSubmit}>
+      <Input type="text" name="message" placeholder="Enter your message" background="dark" />
+      <Button type="submit" background="dark">
+        <PaperPlaneSvg />
+      </Button>
+    </form>
   </div>
 </div>
 
 <style>
-  .container {
+  .page-container {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--c-navy);
+    background-image: url('/img/loading-screen.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .content-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    width: 100%;
-    height: 100%;
     padding: 1rem;
-  }
 
-  textarea {
-    border: 1px solid black;
-  }
-
-  .section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 500px;
+    width: 1000px;
     max-width: 100%;
+    height: 100%;
   }
 
-  label {
+  .message-responses {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    gap: 1rem;
+    width: 100%;
+    max-width: 100%;
+    color: white;
+  }
+
+  .send-message-area {
+    display: flex;
     gap: 0.5rem;
+    width: 100%;
   }
 </style>
