@@ -11,6 +11,18 @@
     reply: ''
   };
   let isLoading = false;
+  let messageResponsesRef: HTMLDivElement | undefined = undefined;
+
+  const autoScrollToBottom = () => {
+    setTimeout(() => {
+      if (messageResponsesRef) {
+        messageResponsesRef.scrollTo({
+          top: messageResponsesRef.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
 
   const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
     const formData: ChatFormData = Object.fromEntries(new FormData(event.currentTarget));
@@ -20,6 +32,7 @@
     }
 
     responseData.history.push({ role: 'user', content: formData.message });
+    autoScrollToBottom();
 
     // trigger UI update
     responseData = {
@@ -48,12 +61,13 @@
 
     responseData = result;
     isLoading = false;
+    autoScrollToBottom();
   };
 </script>
 
 <div class="page-container">
   <div class="content-container">
-    <div class="message-responses">
+    <div class="message-responses" bind:this={messageResponsesRef}>
       {#if responseData.history}
         {#each responseData.history as historyItem}
           {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
@@ -68,7 +82,7 @@
 
     <form class="send-message-area" method="POST" on:submit|preventDefault={handleSubmit}>
       <Input type="text" name="message" placeholder="Enter your message" background="dark" />
-      <Button type="submit" background="dark">
+      <Button type="submit" background="dark" disabled={isLoading}>
         <PaperPlaneSvg />
       </Button>
     </form>
@@ -106,9 +120,16 @@
     flex-direction: column;
     flex-grow: 1;
     gap: 1rem;
+    padding: 0.5rem;
     width: 100%;
     max-width: 100%;
     color: white;
+    overflow-y: auto;
+
+    border-radius: 1rem;
+    border: 1px solid var(--c-white-semi-50);
+    background-color: var(--c-navy-semi-50);
+    backdrop-filter: blur(10px);
   }
 
   .send-message-area {
