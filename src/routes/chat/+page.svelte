@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { EventHandler } from 'svelte/elements';
   import type { ChatFormData, ChatRequest, ChatResponse } from './api-types';
+  import { quizAnswers } from '$lib/stores/user';
 
   let responseData: ChatResponse = {
     history: [],
@@ -12,6 +13,8 @@
     const formData: ChatFormData = Object.fromEntries(new FormData(event.currentTarget));
 
     responseData.history.push({ role: 'user', content: formData.message || '' });
+
+    // trigger UI update
     responseData = {
       ...responseData
     };
@@ -19,6 +22,11 @@
     const request: ChatRequest = {
       history: responseData.history
     };
+
+    // If it is the first message, add the user information collected from the quiz
+    if (responseData.history.length === 1) {
+      request.quizAnswers = $quizAnswers;
+    }
 
     isLoading = true;
     const response = await fetch('/chat', {

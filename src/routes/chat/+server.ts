@@ -2,7 +2,7 @@ import type { ChatRequest, ChatResponse } from './api-types';
 import { OPENAI_API_KEY } from '$env/static/private';
 import OpenAI from 'openai';
 import { json } from '@sveltejs/kit';
-import { generateReminderSystemPrompt, generateSystemPrompt } from './prompts';
+import { generateSystemPrompt } from './prompts';
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
@@ -23,7 +23,7 @@ export const POST = async (event) => {
   if (messages.length % 15 === 0) {
     messages.push({
       role: 'system',
-      content: generateReminderSystemPrompt()
+      content: generateSystemPrompt()
     });
   }
 
