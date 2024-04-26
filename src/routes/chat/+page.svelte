@@ -36,7 +36,7 @@
   };
 </script>
 
-<form method="POST" action="?/reply" on:submit|preventDefault={handleSubmit}>
+<form method="POST" on:submit|preventDefault={handleSubmit}>
   <label>
     Enter message
     <textarea name="message" rows="6"></textarea>

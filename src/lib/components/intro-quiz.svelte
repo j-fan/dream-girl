@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade, scale } from 'svelte/transition';
-  import { quiz, type QuizAnswers } from './intro-quiz';
+  import { quiz } from './intro-quiz';
   import Button from './button.svelte';
   import TextInput from './input.svelte';
   import { quizAnswers } from '$lib/stores/user';
