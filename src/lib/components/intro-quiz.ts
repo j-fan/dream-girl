@@ -60,11 +60,11 @@ export const quiz: QuizQuestion[] = [
     question: 'What are you looking for?',
     type: 'multiple-choice',
     options: [
-      'Talking shame free',
-      'Chatting about common interests',
-      'Sharing emotions',
-      'Feeling less lonely',
-      'Role-playing'
+      'Talk shame free',
+      'Chat about common interests',
+      'Share emotions',
+      'Feel less lonely',
+      'Role-play'
     ]
   },
   {

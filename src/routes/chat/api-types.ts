@@ -1,3 +1,4 @@
+import type { QuizAnswers } from '$lib/components/intro-quiz';
 import type { OpenAI } from 'openai';
 
 export type ChatFormData = {
@@ -6,6 +7,7 @@ export type ChatFormData = {
 
 export type ChatRequest = Partial<{
   history: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
+  quizAnswers: QuizAnswers;
 }>;
 
 export type ChatResponse = {
