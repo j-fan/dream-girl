@@ -141,7 +141,7 @@
 {/if}
 
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
-<LoadingScreen progress={loadingProgress} autoProceed />
+<LoadingScreen progress={loadingProgress} />
 <IntroQuiz
   maxSteps={6}
   onNext={goToNextCameraPoint}

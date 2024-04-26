@@ -1,4 +1,5 @@
 <script lang="ts">
+  import IntroScene from '$lib/babylon/intro-scene.svelte';
   import { anonymousId } from '$lib/stores/user';
   import { onMount } from 'svelte';
 
@@ -11,10 +12,4 @@
   <title>Dream Girl home page</title>
 </svelte:head>
 
-<p>Home page</p>
-
-<style>
-  p {
-    color: pink;
-  }
-</style>
+<IntroScene showDebug={false} />

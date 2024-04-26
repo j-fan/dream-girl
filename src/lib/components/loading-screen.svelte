@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { fade, scale, slide } from 'svelte/transition';
+  import { fade, scale } from 'svelte/transition';
   import Button from './button.svelte';
   /**
    * Loading progress value 0 - 100
@@ -28,7 +28,7 @@
 </script>
 
 {#if !hasEntered}
-  <div class="background" transition:slide={{ axis: 'y', duration: 1000 }}>
+  <div class="background" transition:fade>
     {#if showbgImage}
       <div class="loading-screen-image" transition:fade={{ duration: 1000 }} />
     {/if}
