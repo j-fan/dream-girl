@@ -15,28 +15,23 @@
   const allAnswers: QuizAnswers = [];
 
   const handleNextStep = () => {
-    if (step >= 0 && step <= maxSteps - 1) {
-      allAnswers.push({
-        key: quizItem.key,
-        question: quizItem.question,
-        answer: currentAnswer
-      });
-    }
+    allAnswers.push({
+      key: quizItem.key,
+      question: quizItem.question,
+      answer: currentAnswer
+    });
 
-    step++;
-
-    if (step < maxSteps) {
-      onNext?.(step);
-    } else {
+    if (step === maxSteps - 1) {
       onFinish?.();
-      step = maxSteps;
+      return;
     }
 
+    onNext?.(step++);
     currentAnswer = '';
   };
 </script>
 
-<div class="container" transition:fade={{ delay: 500 }}>
+<div class="container" transition:fade>
   <div class="question-container">
     <p>{quizItem.question}</p>
     {#if quizItem.type === 'multiple-choice'}

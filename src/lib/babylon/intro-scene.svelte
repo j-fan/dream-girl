@@ -7,6 +7,7 @@
   import { createAlphaGlassMaterial, createRainbowGlassMaterial } from './materials';
   import LoadingScreen from '$lib/components/loading-screen.svelte';
   import IntroQuiz from '$lib/components/intro-quiz.svelte';
+  import { goto } from '$app/navigation';
 
   export let showDebug = false;
 
@@ -146,7 +147,7 @@
   maxSteps={6}
   onNext={goToNextCameraPoint}
   onFinish={() => {
-    alert('finished');
+    goto('/chat');
   }}
 />
 
