@@ -44,28 +44,55 @@
   };
 </script>
 
-<form method="POST" on:submit|preventDefault={handleSubmit}>
-  <label>
-    Enter message
-    <textarea name="message" rows="6"></textarea>
-  </label>
-  <button>Submit</button>
-</form>
+<div class="container">
+  <form class="section" method="POST" on:submit|preventDefault={handleSubmit}>
+    <label>
+      Enter message
+      <textarea name="message" rows="6"></textarea>
+    </label>
+    <button>Submit</button>
+  </form>
 
-{#if responseData.history}
-  <h3>History:</h3>
-  {#each responseData.history as historyItem}
-    {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
-      <p>{historyItem.role}: {historyItem.content}</p>
+  <div class="section">
+    {#if responseData.history}
+      {#each responseData.history as historyItem}
+        {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
+          <p>{historyItem.role}: {historyItem.content}</p>
+        {/if}
+      {/each}
     {/if}
-  {/each}
-{/if}
-{#if isLoading}
-  Loading reply...
-{/if}
+    {#if isLoading}
+      Loading reply...
+    {/if}
+  </div>
+</div>
 
 <style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+  }
+
   textarea {
-    border: 2px solid black;
+    border: 1px solid black;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 500px;
+    max-width: 100%;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 </style>
