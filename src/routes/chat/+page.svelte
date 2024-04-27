@@ -137,11 +137,13 @@
     overflow-y: auto;
 
     color: white;
-    font-size: 1rem;
+    font-size: 1.25rem;
 
     border-radius: 1rem;
     border: 1px solid var(--c-white-semi-50);
+
     background-color: var(--c-navy-semi-50);
+    background-image: url('/img/noise.svg');
     backdrop-filter: blur(10px);
   }
 

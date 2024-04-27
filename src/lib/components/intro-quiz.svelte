@@ -77,7 +77,7 @@
     gap: 1rem;
 
     color: var(--c-white);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 
     border-radius: 1rem;
     border: 1px solid var(--c-white-semi-50);

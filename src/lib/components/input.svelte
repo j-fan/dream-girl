@@ -34,7 +34,7 @@
 <style>
   input {
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--c-white);
     background: transparent;
     border: 1px solid var(--c-white-semi-50);
@@ -53,5 +53,6 @@
   .dark-bg {
     background-color: var(--c-navy-semi-50);
     backdrop-filter: blur(10px);
+    background-image: url('/img/noise.svg');
   }
 </style>

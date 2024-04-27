@@ -10,7 +10,7 @@
 
 <style>
   button {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--c-white);
     background: transparent;
     border: 1px solid var(--c-white-semi-50);
@@ -33,6 +33,7 @@
 
   .dark-bg {
     background-color: var(--c-navy-semi-50);
+    background-image: url('/img/noise.svg');
     backdrop-filter: blur(10px);
   }
 
@@ -40,7 +41,5 @@
   button.dark-bg:active,
   button.dark-bg:focus {
     outline: 2px dotted var(--c-white);
-    background-color: var(--c-navy-semi-50);
-    cursor: pointer;
   }
 </style>
