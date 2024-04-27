@@ -7,13 +7,13 @@
   import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
   import { onMount } from 'svelte';
 
-  let responseData: ChatResponse = {
+  let messageData: ChatResponse = {
     history: [],
     reply: ''
   };
   let isLoading = false;
   let messageResponsesRef: HTMLDivElement | undefined = undefined;
-  let messageValue = '';
+  let newUserMessage = '';
   $: userName = $quizAnswers
     ? $quizAnswers.find(({ key }) => key === 'name')?.answer || 'user'
     : 'user';
@@ -31,11 +31,11 @@
 
   const fetchMessage = async () => {
     const request: ChatRequest = {
-      history: responseData.history
+      history: messageData.history
     };
 
     // If it is the first message, add the user information collected from the quiz
-    if (responseData.history.length === 0) {
+    if (messageData.history.length === 0) {
       request.quizAnswers = $quizAnswers;
     }
 
@@ -50,7 +50,7 @@
 
     const result: ChatResponse = JSON.parse(await response.text());
 
-    responseData = result;
+    messageData = result;
     isLoading = false;
   };
 
@@ -59,19 +59,17 @@
   });
 
   const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async () => {
-    if (!messageValue) {
+    if (!newUserMessage) {
       return;
     }
 
-    responseData.history.push({ role: 'user', content: messageValue });
+    messageData.history.push({ role: 'user', content: newUserMessage });
     autoScrollToBottom();
 
     // trigger UI update
-    responseData = {
-      ...responseData
-    };
+    messageData = messageData;
     // Clear input
-    messageValue = '';
+    newUserMessage = '';
 
     await fetchMessage();
     autoScrollToBottom();
@@ -81,8 +79,8 @@
 <div class="page-container">
   <div class="content-container">
     <div class="message-responses" bind:this={messageResponsesRef}>
-      {#if responseData.history}
-        {#each responseData.history as historyItem}
+      {#if messageData.history}
+        {#each messageData.history as historyItem}
           {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
             <div class="message-item">
               <p
@@ -110,7 +108,7 @@
 
     <form class="send-message-area" method="POST" on:submit|preventDefault={handleSubmit}>
       <Input
-        bind:value={messageValue}
+        bind:value={newUserMessage}
         type="text"
         name="message"
         placeholder="Enter your message"
