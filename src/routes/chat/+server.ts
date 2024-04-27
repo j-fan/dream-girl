@@ -2,21 +2,32 @@ import type { ChatRequest, ChatResponse } from './api-types';
 import { OPENAI_API_KEY } from '$env/static/private';
 import OpenAI from 'openai';
 import { json } from '@sveltejs/kit';
-import { generateSystemPrompt } from './prompts';
+import { generateFirstMessage, generateSystemPrompt } from './prompts';
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 export const POST = async (event) => {
   const data: ChatRequest = await event.request.json();
 
-  const systemPrompt = generateSystemPrompt(data.quizAnswers);
-
   const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
 
-  if (!data.history || data.history.length === 1) {
-    messages.push({ role: 'system', content: systemPrompt });
+  if (!data.history || data.history.length === 0) {
+    const firstMessage = generateFirstMessage(data.quizAnswers);
+
+    messages.push({ role: 'system', content: generateSystemPrompt(data.quizAnswers) });
+    messages.push({ role: 'assistant', content: firstMessage });
+
+    const response: ChatResponse = {
+      reply: firstMessage,
+      history: messages
+    };
+
+    return json(response);
   }
-  messages.push(...(data.history || []));
+
+  if (data.history) {
+    messages.push(...data.history);
+  }
 
   // Occasionally remind the AI who it is
   if (messages.length % 15 === 0) {

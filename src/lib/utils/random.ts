@@ -16,6 +16,10 @@ export const randomRange = (min = 0, max = 100) => {
   return rand;
 };
 
+export const randomInt = (min = 0, max = 100) => {
+  return Math.round(randomRange(min, max));
+};
+
 /**
  *
  * @param min Minimum output value

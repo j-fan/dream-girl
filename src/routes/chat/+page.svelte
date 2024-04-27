@@ -5,6 +5,7 @@
   import Button from '$lib/components/button.svelte';
   import Input from '$lib/components/input.svelte';
   import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
+  import { onMount } from 'svelte';
 
   let responseData: ChatResponse = {
     history: [],
@@ -24,27 +25,13 @@
     }, 100);
   };
 
-  const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
-    const formData: ChatFormData = Object.fromEntries(new FormData(event.currentTarget));
-
-    if (!formData.message) {
-      return;
-    }
-
-    responseData.history.push({ role: 'user', content: formData.message });
-    autoScrollToBottom();
-
-    // trigger UI update
-    responseData = {
-      ...responseData
-    };
-
+  const fetchMessage = async () => {
     const request: ChatRequest = {
       history: responseData.history
     };
 
     // If it is the first message, add the user information collected from the quiz
-    if (responseData.history.length === 1) {
+    if (responseData.history.length === 0) {
       request.quizAnswers = $quizAnswers;
     }
 
@@ -61,6 +48,29 @@
 
     responseData = result;
     isLoading = false;
+  };
+
+  onMount(async () => {
+    await fetchMessage();
+    autoScrollToBottom();
+  });
+
+  const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
+    const formData: ChatFormData = Object.fromEntries(new FormData(event.currentTarget));
+
+    if (!formData.message) {
+      return;
+    }
+
+    responseData.history.push({ role: 'user', content: formData.message });
+    autoScrollToBottom();
+
+    // trigger UI update
+    responseData = {
+      ...responseData
+    };
+
+    await fetchMessage();
     autoScrollToBottom();
   };
 </script>
@@ -121,10 +131,13 @@
     flex-grow: 1;
     gap: 1rem;
     padding: 0.5rem;
+
     width: 100%;
     max-width: 100%;
-    color: white;
     overflow-y: auto;
+
+    color: white;
+    font-size: 1rem;
 
     border-radius: 1rem;
     border: 1px solid var(--c-white-semi-50);
