@@ -13,6 +13,9 @@
   };
   let isLoading = false;
   let messageResponsesRef: HTMLDivElement | undefined = undefined;
+  $: userName = $quizAnswers
+    ? $quizAnswers.find(({ key }) => key === 'name')?.answer || 'user'
+    : 'user';
 
   const autoScrollToBottom = () => {
     setTimeout(() => {
@@ -86,7 +89,7 @@
                 class:align-left={historyItem.role === 'assistant'}
                 class:align-right={historyItem.role === 'user'}
               >
-                {historyItem.role}
+                {historyItem.role === 'assistant' ? 'Mei' : userName}
               </p>
               <p
                 class="message-content"
