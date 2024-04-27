@@ -13,6 +13,7 @@
   };
   let isLoading = false;
   let messageResponsesRef: HTMLDivElement | undefined = undefined;
+  let messageValue = '';
   $: userName = $quizAnswers
     ? $quizAnswers.find(({ key }) => key === 'name')?.answer || 'user'
     : 'user';
@@ -57,20 +58,20 @@
     await fetchMessage();
   });
 
-  const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
-    const formData: ChatFormData = Object.fromEntries(new FormData(event.currentTarget));
-
-    if (!formData.message) {
+  const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async () => {
+    if (!messageValue) {
       return;
     }
 
-    responseData.history.push({ role: 'user', content: formData.message });
+    responseData.history.push({ role: 'user', content: messageValue });
     autoScrollToBottom();
 
     // trigger UI update
     responseData = {
       ...responseData
     };
+    // Clear input
+    messageValue = '';
 
     await fetchMessage();
     autoScrollToBottom();
@@ -108,7 +109,13 @@
     </div>
 
     <form class="send-message-area" method="POST" on:submit|preventDefault={handleSubmit}>
-      <Input type="text" name="message" placeholder="Enter your message" background="dark" />
+      <Input
+        bind:value={messageValue}
+        type="text"
+        name="message"
+        placeholder="Enter your message"
+        background="dark"
+      />
       <Button type="submit" background="dark" disabled={isLoading}>
         <PaperPlaneSvg />
       </Button>
