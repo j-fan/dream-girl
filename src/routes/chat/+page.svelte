@@ -52,7 +52,6 @@
 
   onMount(async () => {
     await fetchMessage();
-    autoScrollToBottom();
   });
 
   const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (event) => {
@@ -81,12 +80,27 @@
       {#if responseData.history}
         {#each responseData.history as historyItem}
           {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
-            <p>{historyItem.role}: {historyItem.content}</p>
+            <div class="message-item">
+              <p
+                class="subtle-text"
+                class:align-left={historyItem.role === 'assistant'}
+                class:align-right={historyItem.role === 'user'}
+              >
+                {historyItem.role}
+              </p>
+              <p
+                class="message-content"
+                class:align-left={historyItem.role === 'assistant'}
+                class:align-right={historyItem.role === 'user'}
+              >
+                {historyItem.content}
+              </p>
+            </div>
           {/if}
         {/each}
       {/if}
       {#if isLoading}
-        Loading reply...
+        <p class="subtle-text" style="text-align: center">loading reply...</p>
       {/if}
     </div>
 
@@ -135,9 +149,25 @@
     width: 100%;
     max-width: 100%;
     overflow-y: auto;
+  }
+  .message-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 
-    color: white;
+  .subtle-text {
+    color: var(--c-white-semi-70);
+    font-size: 1rem;
+  }
+
+  .message-content {
+    color: var(--c-white);
     font-size: 1.25rem;
+    white-space: pre-line;
+
+    width: fit-content;
+    padding: 0.5rem;
 
     border-radius: 1rem;
     border: 1px solid var(--c-white-semi-50);
@@ -151,5 +181,13 @@
     display: flex;
     gap: 0.5rem;
     width: 100%;
+  }
+
+  .align-left {
+    align-self: flex-start;
+  }
+
+  .align-right {
+    align-self: flex-end;
   }
 </style>
