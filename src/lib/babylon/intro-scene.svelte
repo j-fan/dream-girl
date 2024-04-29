@@ -88,6 +88,10 @@
   });
 
   const onProgress = (event: BABYLON.ISceneLoaderProgressEvent) => {
+    if (!event.lengthComputable) {
+      return;
+    }
+
     const percent = (event.loaded / event.total) * 100;
 
     // Scene is not truly ready until scene.executeWhenReady is called
