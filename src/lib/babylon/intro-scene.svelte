@@ -14,9 +14,9 @@
   const animatedMeshesFile = 'intro-scene.glb';
   const transformScene = (scene: BABYLON.Scene) => {
     scene.meshes.forEach((mesh) => {
-      if (mesh?.material?.name === 'Glass_rainbow') {
+      if (mesh?.material?.name === 'PaletteMaterial001') {
         mesh.material = createRainbowGlassMaterial(scene);
-      } else if (mesh?.material?.name === 'Glass_default') {
+      } else if (mesh?.material?.name === 'PaletteMaterial003') {
         mesh.material = createAlphaGlassMaterial(scene);
       }
     });
