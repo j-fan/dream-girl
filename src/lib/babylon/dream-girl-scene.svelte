@@ -85,16 +85,37 @@
     };
   });
 
+  const animateCameraToNewTarget = (newTarget: BABYLON.Vector3) => {
+    const ease = new BABYLON.CubicEase();
+    ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+
+    BABYLON.Animation.CreateAndStartAnimation(
+      'camera-travel',
+      camera,
+      'target',
+      30,
+      30,
+      camera.target,
+      newTarget,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+      ease
+    );
+  };
+
   const repositionMei = () => {
+    let newLocation: BABYLON.Vector3;
+
     if (isMobileScreen()) {
-      camera.target = new BABYLON.Vector3(0, 1.15, 0);
+      newLocation = new BABYLON.Vector3(0, 1.15, 0);
     } else if (isTabletPortraitScreen()) {
-      camera.target = new BABYLON.Vector3(-0.3, 1.2, 0);
+      newLocation = new BABYLON.Vector3(-0.3, 1.2, 0);
     } else if (isTabletScreen()) {
-      camera.target = new BABYLON.Vector3(-0.6, 1.2, 0);
+      newLocation = new BABYLON.Vector3(-0.6, 1.2, 0);
     } else {
-      camera.target = new BABYLON.Vector3(-0.8, 1.3, 0);
+      newLocation = new BABYLON.Vector3(-0.8, 1.3, 0);
     }
+
+    animateCameraToNewTarget(newLocation);
   };
 
   const onProgress = (event: BABYLON.ISceneLoaderProgressEvent) => {
