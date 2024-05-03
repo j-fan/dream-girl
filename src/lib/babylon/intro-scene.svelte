@@ -28,7 +28,7 @@
     pipeline.bloomEnabled = true;
     pipeline.bloomThreshold = 0.75;
     pipeline.bloomWeight = 1.5;
-    pipeline.bloomKernel = 128;
+    pipeline.bloomKernel = 64;
     pipeline.bloomScale = 0.5;
 
     pipeline.chromaticAberrationEnabled = true;
