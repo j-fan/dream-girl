@@ -56,6 +56,11 @@
     cursor: pointer;
   }
 
+  input::placeholder {
+    opacity: 0.5;
+    color: var(--c-white);
+  }
+
   .dark-bg {
     background-color: var(--c-navy-semi-50);
     backdrop-filter: blur(10px);
