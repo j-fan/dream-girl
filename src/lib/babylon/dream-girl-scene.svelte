@@ -9,6 +9,7 @@
 
   export let showDebug = false;
   export let onIntroAnimationFinish: (() => void) | undefined = undefined;
+  export let onLoadingFinish: (() => void) | undefined = undefined;
 
   const animatedMeshesFile = 'dream-girl.glb';
   const transformScene = (scene: BABYLON.Scene) => {
@@ -66,6 +67,7 @@
 
     scene.executeWhenReady(() => {
       loadingProgress = 100;
+      onLoadingFinish?.();
       showMeiIntroAnimation();
     });
 

@@ -7,7 +7,7 @@
   import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
   import { onMount } from 'svelte';
   import DreamGirlScene from '$lib/babylon/dream-girl-scene.svelte';
-  import { fade } from 'svelte/transition';
+  import { fade, fly, scale } from 'svelte/transition';
 
   let messageData: ChatResponse = {
     history: [],
@@ -17,6 +17,7 @@
   let messageResponsesRef: HTMLDivElement | undefined = undefined;
   let newUserMessage = '';
   let chatVisible = false;
+  let isSceneLoading = true;
   $: userName = $quizAnswers
     ? $quizAnswers.find(({ key }) => key === 'name')?.answer || 'user'
     : 'user';
@@ -81,9 +82,13 @@
   const onIntroAnimationFinish = () => {
     chatVisible = true;
   };
+
+  const onLoadingFinish = () => {
+    isSceneLoading = false;
+  };
 </script>
 
-<DreamGirlScene {onIntroAnimationFinish} />
+<DreamGirlScene {onIntroAnimationFinish} {onLoadingFinish} />
 {#if chatVisible}
   <div class="page-container" transition:fade={{ delay: 1000 }}>
     <div class="content-container">
@@ -128,6 +133,15 @@
         </Button>
       </form>
     </div>
+  </div>
+{:else if !isSceneLoading}
+  <div class="bottom-anchored">
+    <p class="initialise-text" in:fly={{ delay: 1000, y: 50, duration: 1000 }} out:fade>
+      Hello, I'm Mei!
+    </p>
+    <p class="initialise-text" in:fly={{ delay: 2000, y: 50, duration: 1000 }} out:fade>
+      Initialising to your preferences ♡
+    </p>
   </div>
 {/if}
 
@@ -222,7 +236,7 @@
   }
 
   @supports (backdrop-filter: blur(10px)) {
-    .qmessage-content {
+    .message-content {
       background-color: var(--c-navy-semi-50);
       backdrop-filter: blur(10px);
     }
@@ -240,5 +254,30 @@
 
   .align-right {
     align-self: flex-end;
+  }
+
+  .bottom-anchored {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .initialise-text {
+    font-size: 2rem;
+    text-align: center;
+    color: var(--c-white);
+    text-shadow:
+      2px 2px 2px var(--c-dark-blue),
+      -2px 2px 2px var(--c-dark-blue),
+      -2px -2px 2px var(--c-dark-blue),
+      2px -2px 2px var(--c-dark-blue);
+
+    width: 800px;
+    max-width: 100%;
+    padding: 1rem;
+    white-space: pre-line;
   }
 </style>
