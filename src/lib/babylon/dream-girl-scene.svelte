@@ -18,7 +18,7 @@
       ) {
         const material = mesh.material as BABYLON.PBRMetallicRoughnessMaterial;
         material.iridescence.isEnabled = true;
-        material.iridescence.indexOfRefraction = 1.5;
+        material.iridescence.indexOfRefraction = 1.3;
         material.iridescence.minimumThickness = 100;
         material.iridescence.maximumThickness = 400;
       }
