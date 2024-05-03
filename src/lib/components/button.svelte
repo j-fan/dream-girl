@@ -19,12 +19,6 @@
     min-width: 54px;
   }
 
-  @media only screen and (max-width: 420px) {
-    button {
-      font-size: 1rem;
-    }
-  }
-
   button:hover,
   button:active,
   button:focus {

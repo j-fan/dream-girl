@@ -220,11 +220,7 @@
     background-color: var(--c-navy-semi-80);
     background-image: url('/img/noise.svg');
   }
-  @media only screen and (max-width: 420px) {
-    .message-content {
-      font-size: 1rem;
-    }
-  }
+
   @supports (backdrop-filter: blur(10px)) {
     .qmessage-content {
       background-color: var(--c-navy-semi-50);
