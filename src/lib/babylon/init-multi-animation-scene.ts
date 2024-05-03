@@ -54,7 +54,7 @@ type Options = {
    */
   canvasRef: HTMLCanvasElement | null;
 
-  onSuccess?: (scene: BABYLON.Scene) => void;
+  onError?: () => void;
   onProgress?: BABYLON.Nullable<(event: BABYLON.ISceneLoaderProgressEvent) => void>;
   /**
    * Whether to start all the animations (aside from camera) on load
@@ -76,7 +76,7 @@ export const initMultiAnimationScene = ({
   meshAnimationLoopTime = 100,
   canvasRef,
   onProgress,
-  onSuccess,
+  onError,
   startAllAnimationsByDefault = true
 }: Options) => {
   const fpsFactor = GLTF_FRAME_RATE / fileFrameRate;
@@ -161,7 +161,7 @@ export const initMultiAnimationScene = ({
       transformScene?.(scene);
     },
     onProgress,
-    onSuccess
+    onError
   );
 
   return {
