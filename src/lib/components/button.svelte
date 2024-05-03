@@ -38,9 +38,15 @@
   }
 
   .dark-bg {
-    background-color: var(--c-navy-semi-50);
+    background-color: var(--c-navy-semi-80);
     background-image: url('/img/noise.svg');
-    backdrop-filter: blur(10px);
+  }
+
+  @supports (backdrop-filter: blur(10px)) {
+    .dark-bg {
+      background-color: var(--c-navy-semi-50);
+      backdrop-filter: blur(10px);
+    }
   }
 
   button.dark-bg:hover,

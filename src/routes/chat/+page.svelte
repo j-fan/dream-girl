@@ -197,8 +197,13 @@
   }
 
   .subtle-text {
-    color: var(--c-white-semi-70);
+    color: var(--c-white);
     font-size: 1rem;
+    text-shadow:
+      1px 1px 2px var(--c-dark-blue),
+      -1px 1px 2px var(--c-dark-blue),
+      -1px -1px 2px var(--c-dark-blue),
+      1px -1px 2px var(--c-dark-blue);
   }
 
   .message-content {
@@ -212,13 +217,18 @@
     border-radius: 1rem;
     border: 1px solid var(--c-white-semi-50);
 
-    background-color: var(--c-navy-semi-50);
+    background-color: var(--c-navy-semi-80);
     background-image: url('/img/noise.svg');
-    backdrop-filter: blur(10px);
   }
   @media only screen and (max-width: 420px) {
     .message-content {
       font-size: 1rem;
+    }
+  }
+  @supports (backdrop-filter: blur(10px)) {
+    .qmessage-content {
+      background-color: var(--c-navy-semi-50);
+      backdrop-filter: blur(10px);
     }
   }
 

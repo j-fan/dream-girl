@@ -83,14 +83,20 @@
     border: 1px solid var(--c-white-semi-50);
 
     background-image: url('/img/noise.svg');
-    background-color: var(--c-navy-semi-50);
-    backdrop-filter: blur(10px);
+    background-color: var(--c-navy-semi-80);
 
     width: 400px;
 
     margin-left: 5vw;
     margin-right: 5vw;
     padding: 1rem;
+  }
+
+  @supports (backdrop-filter: blur(10px)) {
+    .question-container {
+      background-color: var(--c-navy-semi-50);
+      backdrop-filter: blur(10px);
+    }
   }
 
   .button-container {
