@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { EventHandler } from 'svelte/elements';
-  import type { ChatFormData, ChatRequest, ChatResponse } from './api-types';
+  import type { ChatRequest, ChatResponse } from './api-types';
   import { quizAnswers } from '$lib/stores/user';
   import Button from '$lib/components/button.svelte';
   import Input from '$lib/components/input.svelte';

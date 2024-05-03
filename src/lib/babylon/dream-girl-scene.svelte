@@ -5,6 +5,7 @@
   import { fade } from 'svelte/transition';
   import { initMultiAnimationScene } from './init-multi-animation-scene';
   import LoadingScreen from '$lib/components/loading-screen.svelte';
+  import { isMobileScreen, isTabletPortraitScreen, isTabletScreen } from '$lib/utils/screen';
 
   export let showDebug = false;
 
@@ -41,6 +42,7 @@
 
   let canvasRef: HTMLCanvasElement | null = null;
   let scene: BABYLON.Scene;
+  let camera: BABYLON.ArcRotateCamera;
 
   let animations: BABYLON.AnimationGroup[] = [];
   let animationIndex = 0;
@@ -59,9 +61,9 @@
     });
     scene = sceneProps.scene;
     animations = sceneProps.animations;
+    camera = defaultCamera;
 
-    // Test moving her to the side
-    // defaultCamera.target = new BABYLON.Vector3(-0.6, 1.2, 0);
+    repositionMei();
 
     scene.executeWhenReady(() => {
       loadingProgress = 100;
@@ -73,6 +75,7 @@
 
     const resizeBabylon = () => {
       engine.resize();
+      repositionMei();
     };
     window.addEventListener('resize', resizeBabylon);
 
@@ -81,6 +84,18 @@
       window.removeEventListener('resize', resizeBabylon);
     };
   });
+
+  const repositionMei = () => {
+    if (isMobileScreen()) {
+      camera.target = new BABYLON.Vector3(0, 1.15, 0);
+    } else if (isTabletPortraitScreen()) {
+      camera.target = new BABYLON.Vector3(-0.3, 1.2, 0);
+    } else if (isTabletScreen()) {
+      camera.target = new BABYLON.Vector3(-0.6, 1.2, 0);
+    } else {
+      camera.target = new BABYLON.Vector3(-0.8, 1.3, 0);
+    }
+  };
 
   const onProgress = (event: BABYLON.ISceneLoaderProgressEvent) => {
     if (!event.lengthComputable) {
