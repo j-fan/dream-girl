@@ -8,6 +8,7 @@
   import { isMobileScreen, isTabletPortraitScreen, isTabletScreen } from '$lib/utils/screen';
 
   export let showDebug = false;
+  export let onIntroAnimationFinish: (() => void) | undefined = undefined;
 
   const animatedMeshesFile = 'dream-girl.glb';
   const transformScene = (scene: BABYLON.Scene) => {
@@ -63,10 +64,9 @@
     animations = sceneProps.animations;
     camera = defaultCamera;
 
-    repositionMei();
-
     scene.executeWhenReady(() => {
       loadingProgress = 100;
+      showMeiIntroAnimation();
     });
 
     engine.runRenderLoop(() => {
@@ -94,7 +94,7 @@
       camera,
       'target',
       30,
-      30,
+      60,
       camera.target,
       newTarget,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
@@ -112,10 +112,22 @@
     } else if (isTabletScreen()) {
       newLocation = new BABYLON.Vector3(-0.6, 1.2, 0);
     } else {
-      newLocation = new BABYLON.Vector3(-0.8, 1.3, 0);
+      newLocation = new BABYLON.Vector3(-0.85, 1.3, 0);
     }
 
     animateCameraToNewTarget(newLocation);
+  };
+
+  const showMeiIntroAnimation = () => {
+    camera.target = new BABYLON.Vector3(0, 1.3, 0);
+    scene.getAnimationGroupByName('Idle03')?.stop();
+    scene.getAnimationGroupByName('Viewing Mirror')?.start(false, 1, undefined, undefined, false);
+
+    animations[1].onAnimationEndObservable.add(() => {
+      scene.getAnimationGroupByName('Idle03')?.start(true);
+      repositionMei();
+      onIntroAnimationFinish?.();
+    });
   };
 
   const onProgress = (event: BABYLON.ISceneLoaderProgressEvent) => {

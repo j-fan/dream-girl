@@ -7,6 +7,7 @@
   import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
   import { onMount } from 'svelte';
   import DreamGirlScene from '$lib/babylon/dream-girl-scene.svelte';
+  import { fade } from 'svelte/transition';
 
   let messageData: ChatResponse = {
     history: [],
@@ -15,6 +16,7 @@
   let isLoading = false;
   let messageResponsesRef: HTMLDivElement | undefined = undefined;
   let newUserMessage = '';
+  let chatVisible = false;
   $: userName = $quizAnswers
     ? $quizAnswers.find(({ key }) => key === 'name')?.answer || 'user'
     : 'user';
@@ -75,53 +77,59 @@
     await fetchMessage();
     autoScrollToBottom();
   };
+
+  const onIntroAnimationFinish = () => {
+    chatVisible = true;
+  };
 </script>
 
-<DreamGirlScene />
-<div class="page-container">
-  <div class="content-container">
-    <div class="message-responses" bind:this={messageResponsesRef}>
-      {#if messageData.history}
-        {#each messageData.history as historyItem}
-          {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
-            <div class="message-item">
-              <p
-                class="subtle-text"
-                class:align-left={historyItem.role === 'assistant'}
-                class:align-right={historyItem.role === 'user'}
-              >
-                {historyItem.role === 'assistant' ? 'Mei' : userName}
-              </p>
-              <p
-                class="message-content"
-                class:align-left={historyItem.role === 'assistant'}
-                class:align-right={historyItem.role === 'user'}
-              >
-                {historyItem.content}
-              </p>
-            </div>
-          {/if}
-        {/each}
-      {/if}
-      {#if isLoading}
-        <p class="subtle-text" style="text-align: center">loading reply...</p>
-      {/if}
-    </div>
+<DreamGirlScene {onIntroAnimationFinish} />
+{#if chatVisible}
+  <div class="page-container" transition:fade>
+    <div class="content-container">
+      <div class="message-responses" bind:this={messageResponsesRef}>
+        {#if messageData.history}
+          {#each messageData.history as historyItem}
+            {#if historyItem.role === 'user' || historyItem.role === 'assistant'}
+              <div class="message-item">
+                <p
+                  class="subtle-text"
+                  class:align-left={historyItem.role === 'assistant'}
+                  class:align-right={historyItem.role === 'user'}
+                >
+                  {historyItem.role === 'assistant' ? 'Mei' : userName}
+                </p>
+                <p
+                  class="message-content"
+                  class:align-left={historyItem.role === 'assistant'}
+                  class:align-right={historyItem.role === 'user'}
+                >
+                  {historyItem.content}
+                </p>
+              </div>
+            {/if}
+          {/each}
+        {/if}
+        {#if isLoading}
+          <p class="subtle-text" style="text-align: center">loading reply...</p>
+        {/if}
+      </div>
 
-    <form class="send-message-area" method="POST" on:submit|preventDefault={handleSubmit}>
-      <Input
-        bind:value={newUserMessage}
-        type="text"
-        name="message"
-        placeholder="Enter your message"
-        background="dark"
-      />
-      <Button type="submit" background="dark" disabled={isLoading}>
-        <PaperPlaneSvg />
-      </Button>
-    </form>
+      <form class="send-message-area" method="POST" on:submit|preventDefault={handleSubmit}>
+        <Input
+          bind:value={newUserMessage}
+          type="text"
+          name="message"
+          placeholder="Enter your message"
+          background="dark"
+        />
+        <Button type="submit" background="dark" disabled={isLoading}>
+          <PaperPlaneSvg />
+        </Button>
+      </form>
+    </div>
   </div>
-</div>
+{/if}
 
 <style>
   .page-container {
