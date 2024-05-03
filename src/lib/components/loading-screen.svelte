@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { fade, scale } from 'svelte/transition';
   import Button from './button.svelte';
+  import { Circle } from 'svelte-loading-spinners';
   /**
    * Loading progress value 0 - 100
    */
@@ -46,7 +47,10 @@
           >
         </div>
       {:else}
-        <span class="progress-amount">{progress.toFixed(0)}%</span>
+        <div class="loading-container">
+          <span class="progress-amount">{progress.toFixed(0)}%</span>
+          <Circle size="100" color="#FFFFFF" unit="px" duration="1s" />
+        </div>
       {/if}
     </div>
   </div>
@@ -90,9 +94,18 @@
     aspect-ratio: 8 / 5;
   }
 
+  .loading-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .progress-amount {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--c-white);
+
+    position: absolute;
   }
 
   .bottom-content {
