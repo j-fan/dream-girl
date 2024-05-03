@@ -35,7 +35,7 @@
     pipeline.bloomScale = 0.5;
 
     pipeline.chromaticAberrationEnabled = true;
-    pipeline.chromaticAberration.aberrationAmount = 100;
+    pipeline.chromaticAberration.aberrationAmount = 50;
     pipeline.chromaticAberration.radialIntensity = 3;
   };
 
@@ -49,7 +49,7 @@
   let loadingProgress = 0;
 
   onMount(() => {
-    const { engine, ...sceneProps } = initMultiAnimationScene({
+    const { engine, defaultCamera, ...sceneProps } = initMultiAnimationScene({
       canvasRef,
       animatedMeshesFile,
       transformScene,
@@ -59,6 +59,9 @@
     });
     scene = sceneProps.scene;
     animations = sceneProps.animations;
+
+    // Test moving her to the side
+    // defaultCamera.target = new BABYLON.Vector3(-0.6, 1.2, 0);
 
     scene.executeWhenReady(() => {
       loadingProgress = 100;
@@ -129,7 +132,6 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    /* pointer-events: none; */
     z-index: -1;
 
     filter: contrast(1.1) saturate(1.2) hue-rotate(5deg);

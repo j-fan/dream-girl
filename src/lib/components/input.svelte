@@ -43,6 +43,12 @@
     outline: none;
   }
 
+  @media only screen and (max-width: 420px) {
+    input {
+      font-size: 1rem;
+    }
+  }
+
   input:hover,
   input:active,
   input:focus {

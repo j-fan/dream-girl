@@ -87,7 +87,6 @@
     backdrop-filter: blur(10px);
 
     width: 400px;
-    min-height: 500px;
 
     margin-left: 5vw;
     margin-right: 5vw;

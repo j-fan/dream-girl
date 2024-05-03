@@ -94,8 +94,8 @@ export const initMultiAnimationScene = ({
     'camera1',
     1.57,
     1.57,
-    1.727,
-    new BABYLON.Vector3(0, 1.3, 0),
+    1.6,
+    new BABYLON.Vector3(0, 1.2, 0),
     scene
   );
   camera.attachControl(canvasRef, true);
@@ -170,6 +170,6 @@ export const initMultiAnimationScene = ({
     animations,
     cameraAnimations,
     fpsFactor,
-    camera
+    defaultCamera: camera
   };
 };

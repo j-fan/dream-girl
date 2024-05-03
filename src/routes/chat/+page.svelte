@@ -6,6 +6,7 @@
   import Input from '$lib/components/input.svelte';
   import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
   import { onMount } from 'svelte';
+  import DreamGirlScene from '$lib/babylon/dream-girl-scene.svelte';
 
   let messageData: ChatResponse = {
     history: [],
@@ -76,6 +77,7 @@
   };
 </script>
 
+<DreamGirlScene />
 <div class="page-container">
   <div class="content-container">
     <div class="message-responses" bind:this={messageResponsesRef}>
@@ -124,15 +126,23 @@
 <style>
   .page-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 
     width: 100%;
     height: 100%;
+    justify-content: flex-end;
+  }
 
-    background-color: var(--c-navy);
-    background-image: url('/img/loading-screen.jpg');
-    background-size: cover;
-    background-position: center;
+  @media only screen and (max-width: 1200px) {
+    .page-container {
+      justify-content: flex-end;
+    }
+  }
+
+  @media only screen and (max-width: 420px) {
+    .page-container {
+      justify-content: center;
+    }
   }
 
   .content-container {
@@ -142,9 +152,23 @@
     gap: 1rem;
     padding: 1rem;
 
-    width: 1000px;
-    max-width: 100%;
+    width: 70%;
     height: 100%;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    .content-container {
+      width: 70%;
+      height: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 420px) {
+    .content-container {
+      width: 100%;
+      height: 75%;
+      align-self: flex-end;
+    }
   }
 
   .message-responses {
@@ -183,6 +207,11 @@
     background-color: var(--c-navy-semi-50);
     background-image: url('/img/noise.svg');
     backdrop-filter: blur(10px);
+  }
+  @media only screen and (max-width: 420px) {
+    .message-content {
+      font-size: 1rem;
+    }
   }
 
   .send-message-area {
