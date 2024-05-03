@@ -121,11 +121,13 @@
   const showMeiIntroAnimation = () => {
     camera.target = new BABYLON.Vector3(0, 1.3, 0);
     scene.getAnimationGroupByName('Idle03')?.stop();
-    scene.getAnimationGroupByName('Viewing Mirror')?.start(false, 1, undefined, undefined, false);
+    scene.getAnimationGroupByName('Viewing Mirror')?.start(false, 1, 0, 750, false);
 
     animations[1].onAnimationEndObservable.add(() => {
       scene.getAnimationGroupByName('Idle03')?.start(true);
-      repositionMei();
+      setTimeout(() => {
+        repositionMei();
+      }, 500);
       onIntroAnimationFinish?.();
     });
   };

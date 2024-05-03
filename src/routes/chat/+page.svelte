@@ -85,7 +85,7 @@
 
 <DreamGirlScene {onIntroAnimationFinish} />
 {#if chatVisible}
-  <div class="page-container" transition:fade>
+  <div class="page-container" transition:fade={{ delay: 1000 }}>
     <div class="content-container">
       <div class="message-responses" bind:this={messageResponsesRef}>
         {#if messageData.history}
