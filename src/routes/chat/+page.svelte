@@ -135,7 +135,7 @@
     </div>
   </div>
 {:else if !isSceneLoading}
-  <div class="bottom-anchored">
+  <div class="bottom-anchored" transition:fade>
     <p class="initialise-text" in:fly={{ delay: 1000, y: 50, duration: 1000 }} out:fade>
       Hello, I'm Mei!
     </p>
@@ -257,12 +257,14 @@
   }
 
   .bottom-anchored {
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 4rem);
+    height: calc(100% - 4rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 2rem;
+    border: 2px solid var(--c-light-blue);
   }
 
   .initialise-text {
