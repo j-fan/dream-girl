@@ -56,6 +56,10 @@ type Options = {
 
   onSuccess?: (scene: BABYLON.Scene) => void;
   onProgress?: BABYLON.Nullable<(event: BABYLON.ISceneLoaderProgressEvent) => void>;
+  /**
+   * Whether to start all the animations (aside from camera) on load
+   */
+  startAllAnimationsByDefault?: boolean;
 };
 
 // The GLTF import defaults the frame rate to 60
@@ -72,7 +76,8 @@ export const initMultiAnimationScene = ({
   meshAnimationLoopTime = 100,
   canvasRef,
   onProgress,
-  onSuccess
+  onSuccess,
+  startAllAnimationsByDefault = true
 }: Options) => {
   const fpsFactor = GLTF_FRAME_RATE / fileFrameRate;
   const animations: BABYLON.AnimationGroup[] = [];
@@ -85,7 +90,14 @@ export const initMultiAnimationScene = ({
   BABYLON.SceneLoaderFlags.ShowLoadingScreen = false;
 
   // Setup default camera
-  const camera = new BABYLON.UniversalCamera('camera1', new BABYLON.Vector3(0, 0, -5), scene);
+  const camera = new BABYLON.ArcRotateCamera(
+    'camera1',
+    1.57,
+    1.57,
+    1.727,
+    new BABYLON.Vector3(0, 1.3, 0),
+    scene
+  );
   camera.attachControl(canvasRef, true);
 
   // Setup HDRI textures
@@ -125,7 +137,9 @@ export const initMultiAnimationScene = ({
           cameraAnimations.push(anim);
         } else {
           animations.push(anim);
-          anim.start(true, 1, 0, meshAnimationLoopTime * fpsFactor);
+          if (startAllAnimationsByDefault) {
+            anim.start(true, 1, 0, meshAnimationLoopTime * fpsFactor);
+          }
         }
       });
 
@@ -155,6 +169,7 @@ export const initMultiAnimationScene = ({
     engine,
     animations,
     cameraAnimations,
-    fpsFactor
+    fpsFactor,
+    camera
   };
 };
