@@ -40,9 +40,8 @@
     position: relative;
 
     width: 900px;
-    max-width: 90%;
-    height: 80dvh;
-    max-height: 90%;
+    max-width: 90dvw;
+    max-height: 90dvh;
 
     color: var(--c-white);
     font-size: 1.25rem;
@@ -67,8 +66,10 @@
 
   .modal-content {
     width: 100%;
-    height: 100%;
-    overflow-y: auto;
+
+    min-height: min-content; /* Set minimum height to fit content */
+    max-height: calc(90dvh - 3rem); /* Limit maximum height to 90% of viewport height */
+    overflow-y: auto; /* Enable vertical scrolling */
     overflow-x: hidden;
   }
 
@@ -78,8 +79,8 @@
     right: 0;
     transform: translate(50%, -50%);
 
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
 
     border: 1px solid var(--c-white-semi-50);
     border-radius: 50%;

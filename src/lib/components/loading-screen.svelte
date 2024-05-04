@@ -60,7 +60,7 @@
   .background {
     position: fixed;
     inset: 0;
-    z-index: 1;
+    z-index: 2;
 
     background-color: var(--c-navy);
   }

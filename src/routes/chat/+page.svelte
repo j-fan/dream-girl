@@ -7,8 +7,7 @@
   import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
   import { onMount } from 'svelte';
   import DreamGirlScene from '$lib/babylon/dream-girl-scene.svelte';
-  import { fade, fly, scale } from 'svelte/transition';
-  import AboutButton from '$lib/components/about-button.svelte';
+  import { fade, fly } from 'svelte/transition';
 
   let messageData: ChatResponse = {
     history: [],
@@ -144,10 +143,6 @@
       Initialising to your preferences ♡
     </p>
   </div>
-{/if}
-
-{#if !isSceneLoading}
-  <AboutButton />
 {/if}
 
 <style>

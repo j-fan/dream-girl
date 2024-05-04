@@ -5,7 +5,7 @@
   import { FirebaseApp } from 'sveltefire';
 
   import { auth, firestore, initialiseFirebase } from '$lib/firebase/firebase';
-  import AboutButton from '$lib/components/about-button.svelte';
+  import FloatingButtons from '$lib/components/floating-buttons.svelte';
 
   // Initialize Firebase
   initialiseFirebase();
@@ -50,9 +50,11 @@
     <slot />
   </main>
 </FirebaseApp>
+<FloatingButtons />
 
 <style>
   main {
+    position: relative;
     width: 100%;
     height: 100%;
   }
