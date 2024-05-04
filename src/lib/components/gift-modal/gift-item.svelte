@@ -1,30 +1,60 @@
 <script lang="ts">
-  import type { GiftType } from './types';
+  import CoinsSvg from '$lib/icons/coins-svg.svelte';
+  import Button from '../button.svelte';
 
-  export let giftType: GiftType;
+  export let imageSrc: string;
+  export let cost: number;
+  export let title: string;
+  export let description: string;
 </script>
 
-<div class="gift-container">
-  {#if giftType === 'AlarmClock'}
-    <img src="/img/alarm.png" alt="Alarm clock" />
-  {:else if giftType === 'CrystalBall'}
-    <img src="/img/crystal-ball.png" alt="Crystal ball" />
-  {:else if giftType === 'Elixir'}
-    <img src="/img/elixir.png" alt="Elixir" />
-  {:else if giftType === 'FortuneCookie'}
-    <img src="/img/fortune-cookie.png" alt="Fortune cookie" />
-  {:else if giftType === 'Handcuffs'}
-    <img src="/img/handcuffs.png" alt="Handcuffs" />
-  {:else if giftType === 'Puzzle'}
-    <img src="/img/puzzle.png" alt="Puzzle" />
-  {:else if giftType === 'Ring'}
-    <img src="/img/ring.png" alt="Ring" />
-  {/if}
+<div class="product-display">
+  <img src={imageSrc} alt="Alarm clock" />
+  <div class="purchase">
+    <div class="coin-balance">
+      <CoinsSvg width="16px" height="16px" />
+      <span class="cost">{cost}</span>
+    </div>
+    <Button type="button">Purchase</Button>
+  </div>
+</div>
+<div class="description">
+  <h3>{title}</h3>
+  <p>
+    {description}
+  </p>
 </div>
 
 <style>
   img {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
+  }
+
+  .product-display {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .description {
+    flex-grow: 1;
+  }
+
+  .purchase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .coin-balance {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .cost {
+    font-size: 1rem;
   }
 </style>

@@ -2,7 +2,7 @@
   import CoinsSvg from '$lib/icons/coins-svg.svelte';
   import { coinBalance } from '$lib/stores/user';
   import Modal from '../modal.svelte';
-  import GiftItem from './gift-item.svelte';
+  import GiftItem from './gift-items.svelte';
   import { allGifts, type GiftType } from './types';
 
   export let isOpen = false;
@@ -42,18 +42,20 @@
   .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
   }
 
   .coin-balance {
-    align-self: end;
-
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
 
   .gift-grid {
+    margin-top: 2rem;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
   }
 </style>
