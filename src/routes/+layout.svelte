@@ -3,7 +3,7 @@
   import { goto } from '$app/navigation';
   import InactivityTimeout from '$lib/components/inactivity-timeout.svelte';
   import { FirebaseApp } from 'sveltefire';
-  import { anonymousId, quizAnswers } from '$lib/stores/user';
+  import { anonymousId, coinBalance, quizAnswers } from '$lib/stores/user';
   import { onMount } from 'svelte';
 
   import { auth, firestore, initialiseFirebase } from '$lib/firebase/firebase';
@@ -29,6 +29,7 @@
   const generateNewUser = () => {
     anonymousId.set(window.crypto.randomUUID());
     quizAnswers.set([]);
+    coinBalance.set(1000);
   };
 </script>
 

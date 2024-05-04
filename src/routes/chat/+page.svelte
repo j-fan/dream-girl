@@ -8,6 +8,8 @@
   import { onMount } from 'svelte';
   import DreamGirlScene from '$lib/babylon/dream-girl-scene.svelte';
   import { fade, fly } from 'svelte/transition';
+  import GiftSvg from '$lib/icons/gift-svg.svelte';
+  import GiftModal from '$lib/components/gift-modal/gift-modal.svelte';
 
   let messageData: ChatResponse = {
     history: [],
@@ -18,6 +20,8 @@
   let newUserMessage = '';
   let chatVisible = false;
   let isSceneLoading = true;
+  let isGiftModalOpen = false;
+
   $: userName = $quizAnswers
     ? $quizAnswers.find(({ key }) => key === 'name')?.answer || 'user'
     : 'user';
@@ -128,12 +132,27 @@
           placeholder="Enter your message"
           background="dark"
         />
+        <Button
+          type="button"
+          background="dark"
+          on:click={() => {
+            isGiftModalOpen = true;
+          }}
+        >
+          <GiftSvg />
+        </Button>
         <Button type="submit" background="dark" disabled={isLoading}>
           <PaperPlaneSvg />
         </Button>
       </form>
     </div>
   </div>
+  <GiftModal
+    isOpen={isGiftModalOpen}
+    onClose={() => {
+      isGiftModalOpen = false;
+    }}
+  />
 {:else if !isSceneLoading}
   <div class="bottom-anchored" transition:fade>
     <p class="initialise-text" in:fly={{ delay: 1000, y: 50, duration: 1000 }} out:fade>

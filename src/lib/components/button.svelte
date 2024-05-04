@@ -42,6 +42,12 @@
   button.dark-bg:hover,
   button.dark-bg:active,
   button.dark-bg:focus {
+    background-color: var(--c-navy-semi-50);
+    background-image: url('/img/noise.svg');
+
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
     outline: 2px dotted var(--c-white);
   }
 </style>
