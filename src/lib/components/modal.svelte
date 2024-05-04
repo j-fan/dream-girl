@@ -7,7 +7,12 @@
 
 {#if isOpen}
   <div aria-hidden="true" class="modal-backdrop" on:click|stopPropagation={onClose} transition:fade>
-    <div class="modal" transition:fly={{ y: 50, delay: 100 }}>
+    <div
+      aria-hidden="true"
+      class="modal"
+      transition:fly={{ y: 50, delay: 100 }}
+      on:click|stopPropagation
+    >
       <button class="modal-close" on:click={onClose}>
         <CrossSvg />
       </button>
