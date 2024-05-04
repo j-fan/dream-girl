@@ -151,10 +151,10 @@ export const initMultiAnimationScene = ({
         // Use the camera from the GLTF file
         scene.activeCamera = scene.cameras[1];
       } else {
-        console.error(
+        console.warn(
           scene.cameras.length < 2
-            ? 'Failed to find a camera in the GLTF file'
-            : 'Please ensure you have exactly one camera in your GLTF file'
+            ? `Failed to find a camera in the GLTF file: ${animatedMeshesFile}`
+            : `Please ensure you have exactly one camera in your GLTF file: ${animatedMeshesFile}`
         );
       }
 
