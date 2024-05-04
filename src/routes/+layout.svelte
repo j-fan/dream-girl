@@ -5,6 +5,7 @@
   import { FirebaseApp } from 'sveltefire';
 
   import { auth, firestore, initialiseFirebase } from '$lib/firebase/firebase';
+  import AboutButton from '$lib/components/about-button.svelte';
 
   // Initialize Firebase
   initialiseFirebase();

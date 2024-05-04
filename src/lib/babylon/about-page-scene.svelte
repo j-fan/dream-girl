@@ -53,7 +53,7 @@
 
     scene.executeWhenReady(() => {
       loadingProgress = 100;
-      camera.target = new BABYLON.Vector3(-2, 0.53, -2.7);
+      camera.target = new BABYLON.Vector3(-2.3, 0.53, -2.7);
       camera.radius = 7.8;
       camera.alpha = 1.4847;
       camera.beta = 1.7015;

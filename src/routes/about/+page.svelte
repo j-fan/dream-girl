@@ -50,8 +50,8 @@
 
   .content-container {
     max-width: 100%;
-    width: 800px;
-    margin: 1rem;
+    width: 1000px;
+    margin: 3rem;
   }
 
   section {

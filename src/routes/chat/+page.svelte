@@ -8,6 +8,7 @@
   import { onMount } from 'svelte';
   import DreamGirlScene from '$lib/babylon/dream-girl-scene.svelte';
   import { fade, fly, scale } from 'svelte/transition';
+  import AboutButton from '$lib/components/about-button.svelte';
 
   let messageData: ChatResponse = {
     history: [],
@@ -145,6 +146,10 @@
   </div>
 {/if}
 
+{#if !isSceneLoading}
+  <AboutButton />
+{/if}
+
 <style>
   .page-container {
     display: flex;
@@ -173,6 +178,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
+    padding-top: 3rem;
 
     width: 70%;
     height: 100%;

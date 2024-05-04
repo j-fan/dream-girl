@@ -8,6 +8,7 @@
   import LoadingScreen from '$lib/components/loading-screen.svelte';
   import IntroQuiz from '$lib/components/intro-quiz.svelte';
   import { goto } from '$app/navigation';
+  import AboutButton from '$lib/components/about-button.svelte';
 
   export let showDebug = false;
 
@@ -154,6 +155,10 @@
     goto('/chat');
   }}
 />
+
+{#if loadingProgress === 100}
+  <AboutButton />
+{/if}
 
 <style>
   canvas {
