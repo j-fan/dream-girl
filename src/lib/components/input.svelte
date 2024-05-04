@@ -56,14 +56,10 @@
   }
 
   .dark-bg {
-    background-color: var(--c-navy-semi-80);
+    background-color: var(--c-navy-semi-50);
     background-image: url('/img/noise.svg');
-  }
 
-  @supports (backdrop-filter: blur(10px)) {
-    .dark-bg {
-      background-color: var(--c-navy-semi-50);
-      backdrop-filter: blur(10px);
-    }
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 </style>

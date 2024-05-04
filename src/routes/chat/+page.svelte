@@ -231,15 +231,10 @@
     border-radius: 1rem;
     border: 1px solid var(--c-white-semi-50);
 
-    background-color: var(--c-navy-semi-80);
+    background-color: var(--c-navy-semi-50);
     background-image: url('/img/noise.svg');
-  }
-
-  @supports (backdrop-filter: blur(10px)) {
-    .message-content {
-      background-color: var(--c-navy-semi-50);
-      backdrop-filter: blur(10px);
-    }
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 
   .send-message-area {
