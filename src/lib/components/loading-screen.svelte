@@ -97,7 +97,6 @@
   .loading-container {
     position: relative;
     display: flex;
-    align-items: center;
     justify-content: center;
   }
 
@@ -106,6 +105,7 @@
     color: var(--c-white);
 
     position: absolute;
+    top: 35%;
   }
 
   .bottom-content {
