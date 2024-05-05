@@ -1,14 +1,14 @@
 import type { GiftType } from './types';
 
 export const allGifts: GiftType[] = [
-  'Rose',
   'AlarmClock',
-  'Handcuffs',
-  'FortuneCookie',
   'Ring',
-  'Car',
+  'Rose',
   'Handbag',
+  'Car',
+  'FortuneCookie',
   'CrystalBall',
+  'Handcuffs',
   'Elixir',
   'Puzzle'
 ];
@@ -38,7 +38,7 @@ export const giftDetails: Record<GiftType, GiftDetail> = {
   CrystalBall: {
     title: 'Communication Crystal Ball',
     description:
-      'A crystal ball that grants the ability for your lover to instantly see your point of view when their disagree with you',
+      'A crystal ball that grants the ability for your lover to instantly see your point of view when they disagree with you',
     cost: 250,
     image: '/img/crystal-ball.png'
   },
@@ -86,7 +86,7 @@ export const giftDetails: Record<GiftType, GiftDetail> = {
     title: 'Rejection Resistant Roses',
     description:
       "A bouquet of roses that never wilt, symbolizing your resilience in the face of rejection. Because even if your love life feels thorny, you'll always bloom again.",
-    cost: 100,
+    cost: 150,
     image: '/img/rose.png'
   }
 };
