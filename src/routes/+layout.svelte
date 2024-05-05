@@ -58,7 +58,7 @@
 </svelte:head>
 
 <FirebaseApp {auth} {firestore}>
-  <InactivityTimeout {onTimeout} maxMinutes={60} />
+  <InactivityTimeout {onTimeout} maxMinutes={5} />
   <main>
     <slot />
   </main>
