@@ -57,7 +57,7 @@
 
   $: {
     if (expression && scene) {
-      scene.getAnimationGroupByName(expression)?.start(false, 0.2, 0, 110, true);
+      scene.getAnimationGroupByName(expression)?.start(false, 0.2);
     }
   }
 
