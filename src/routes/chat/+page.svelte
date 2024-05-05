@@ -12,6 +12,7 @@
   import GiftModal from '$lib/components/gift-modal/gift-modal.svelte';
   import type { GiftType } from '$lib/components/gift-modal/types';
   import { giftDetails } from '$lib/components/gift-modal/constants';
+  import type { ExpressionType } from '$lib/babylon/types';
 
   let messageData: ChatResponse = {
     history: [],
@@ -23,6 +24,7 @@
   let chatVisible = false;
   let isSceneLoading = true;
   let isGiftModalOpen = false;
+  let currentExpression: ExpressionType | undefined = undefined;
 
   $: userName = $quizAnswers
     ? $quizAnswers.find(({ key }) => key === 'name')?.answer || 'user'
@@ -61,6 +63,7 @@
     const result: ChatResponse = JSON.parse(await response.text());
 
     messageData = result;
+    currentExpression = result.expression;
     isLoading = false;
   };
 
@@ -117,7 +120,7 @@
   };
 </script>
 
-<DreamGirlScene {onIntroAnimationFinish} {onLoadingFinish} />
+<DreamGirlScene {onIntroAnimationFinish} {onLoadingFinish} expression={currentExpression} />
 {#if chatVisible}
   <div class="page-container" transition:fade={{ delay: 1000 }}>
     <div class="content-container">

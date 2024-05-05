@@ -1,3 +1,4 @@
+import type { ExpressionType } from '$lib/babylon/types';
 import type { QuizAnswers } from '$lib/components/intro-quiz';
 import type { OpenAI } from 'openai';
 
@@ -13,4 +14,5 @@ export type ChatRequest = Partial<{
 export type ChatResponse = {
   reply: string;
   history: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
+  expression?: ExpressionType;
 };

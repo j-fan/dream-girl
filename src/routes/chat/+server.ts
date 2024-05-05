@@ -3,6 +3,8 @@ import { OPENAI_API_KEY } from '$env/static/private';
 import OpenAI from 'openai';
 import { json } from '@sveltejs/kit';
 import { generateFirstMessage, generateSystemPrompt } from './prompts';
+import { separateExpressionAndPrompt } from './utils';
+import type { ExpressionType } from '$lib/babylon/types';
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
@@ -12,14 +14,15 @@ export const POST = async (event) => {
   const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
 
   if (!data.history || data.history.length === 0) {
-    const firstMessage = generateFirstMessage(data.quizAnswers);
+    const firstMessage = separateExpressionAndPrompt(generateFirstMessage(data.quizAnswers));
 
     messages.push({ role: 'system', content: generateSystemPrompt(data.quizAnswers) });
-    messages.push({ role: 'assistant', content: firstMessage });
+    messages.push({ role: 'assistant', content: firstMessage.prompt });
 
     const response: ChatResponse = {
-      reply: firstMessage,
-      history: messages
+      reply: firstMessage.prompt,
+      history: messages,
+      expression: firstMessage.expression
     };
 
     return json(response);
@@ -46,13 +49,23 @@ export const POST = async (event) => {
     frequency_penalty: 0
   });
 
+  let newExpression: ExpressionType | undefined = undefined;
+
   if (completion) {
-    messages.push(completion.choices[0].message);
+    const newMessage = completion.choices?.[0]?.message;
+    const completionWithExpression = separateExpressionAndPrompt(newMessage?.content || '');
+    newExpression = completionWithExpression.expression;
+
+    messages.push({
+      ...newMessage,
+      content: completionWithExpression.prompt
+    });
   }
 
   const response: ChatResponse = {
     reply: completion.choices[0].message.content || '',
-    history: messages
+    history: messages,
+    expression: newExpression
   };
 
   return json(response);

@@ -11,10 +11,12 @@
     isTabletPortraitScreen,
     isTabletScreen
   } from '$lib/utils/screen';
+  import type { ExpressionType } from './types';
 
   export let showDebug = false;
   export let onIntroAnimationFinish: (() => void) | undefined = undefined;
   export let onLoadingFinish: (() => void) | undefined = undefined;
+  export let expression: ExpressionType | undefined = undefined;
 
   const animatedMeshesFile = 'dream-girl.glb';
   const transformScene = (scene: BABYLON.Scene) => {
@@ -52,6 +54,12 @@
   let animationName = '';
 
   let loadingProgress = 0;
+
+  $: {
+    if (expression && scene) {
+      scene.getAnimationGroupByName(expression)?.start(false, 0.2, 0, 110, true);
+    }
+  }
 
   onMount(() => {
     const { engine, defaultCamera, ...sceneProps } = initMultiAnimationScene({
@@ -146,11 +154,10 @@
 
   const showMeiIntroAnimation = () => {
     camera.target = new BABYLON.Vector3(0, 1.3, 0);
-    scene.getAnimationGroupByName('Happy')?.stop();
     scene.getAnimationGroupByName('Viewing Mirror')?.start(false, 1, 0, 750, false);
 
     scene.getAnimationGroupByName('Viewing Mirror')?.onAnimationEndObservable.add(() => {
-      scene.getAnimationGroupByName('Idle03')?.start(true);
+      scene.getAnimationGroupByName('Idle03')?.start(true, 1, 0, 1109);
       setTimeout(() => {
         repositionMei();
       }, 500);
@@ -196,6 +203,11 @@
   <button class="animateButton" on:click={nextAnimation}>Select next animation</button>
   <button class="animateButton" on:click={toggleAnimation}>Toggle start/stop</button>
   <div class="animationName">Current animation: {animationName}</div>
+  <button
+    on:click={() => {
+      scene.getAnimationGroupByName('Happy')?.start();
+    }}>expression</button
+  >
 {/if}
 
 <canvas bind:this={canvasRef} out:fade={{ duration: 500 }} />
