@@ -19,6 +19,7 @@
     reply: ''
   };
   let isLoading = false;
+  let isError = false;
   let messageResponsesRef: HTMLDivElement | undefined = undefined;
   let newUserMessage = '';
   let chatVisible = false;
@@ -52,6 +53,8 @@
     }
 
     isLoading = true;
+    isError = false;
+
     const response = await fetch('/chat', {
       method: 'POST',
       headers: {
@@ -59,6 +62,11 @@
       },
       body: JSON.stringify(request)
     });
+
+    if (!response.ok) {
+      isError = true;
+      return;
+    }
 
     const result: ChatResponse = JSON.parse(await response.text());
 
@@ -148,7 +156,12 @@
           {/each}
         {/if}
         {#if isLoading}
-          <p class="subtle-text" style="text-align: center">loading reply...</p>
+          <p class="subtle-text" style="text-align: center">Loading reply...</p>
+        {/if}
+        {#if isError}
+          <p class="subtle-text" style="text-align: center">
+            Something went wrong. Please try again.
+          </p>
         {/if}
       </div>
 
