@@ -41,10 +41,6 @@
     pipeline.bloomWeight = 0.5;
     pipeline.bloomKernel = 32;
     pipeline.bloomScale = 0.5;
-
-    pipeline.chromaticAberrationEnabled = true;
-    pipeline.chromaticAberration.aberrationAmount = 50;
-    pipeline.chromaticAberration.radialIntensity = 3;
   };
 
   let canvasRef: HTMLCanvasElement | null = null;
@@ -133,15 +129,15 @@
     if (isMobileScreen()) {
       newLocation = new BABYLON.Vector3(0, 1.15, 0);
     } else if (isTabletPortraitScreen()) {
-      newLocation = new BABYLON.Vector3(-0.3, 1.2, 0);
+      newLocation = new BABYLON.Vector3(-0.3, 1.25, 0);
     } else if (isTabletScreen()) {
-      newLocation = new BABYLON.Vector3(-0.52, 1.2, 0);
+      newLocation = new BABYLON.Vector3(-0.52, 1.25, 0);
       newAlpha = 1.35;
     } else if (isDesktopScreen()) {
-      newLocation = new BABYLON.Vector3(-0.65, 1.3, 0);
+      newLocation = new BABYLON.Vector3(-0.65, 1.35, 0);
       newAlpha = 1.2;
     } else {
-      newLocation = new BABYLON.Vector3(-0.8, 1.3, 0);
+      newLocation = new BABYLON.Vector3(-0.8, 1.35, 0);
       newAlpha = 1.1;
     }
 

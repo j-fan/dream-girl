@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 
 export const isMobileScreen = () => {
   if (browser) {
-    return window.innerWidth < 420;
+    return window.innerWidth < 430;
   }
 
   return false;

@@ -206,7 +206,7 @@
     }
   }
 
-  @media only screen and (max-width: 420px) {
+  @media only screen and (max-width: 430px) {
     .page-container {
       justify-content: center;
     }
@@ -231,7 +231,7 @@
     }
   }
 
-  @media only screen and (max-width: 420px) {
+  @media only screen and (max-width: 430px) {
     .content-container {
       width: 100%;
       height: 75%;
