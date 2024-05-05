@@ -75,9 +75,11 @@
     isLoading = false;
   };
 
-  onMount(async () => {
-    await fetchMessage();
-  });
+  $: {
+    if (chatVisible) {
+      fetchMessage();
+    }
+  }
 
   const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async () => {
     if (!newUserMessage) {
