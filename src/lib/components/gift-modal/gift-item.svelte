@@ -8,27 +8,47 @@
   export let description: string;
 </script>
 
-<div class="product-display">
-  <img src={imageSrc} alt="Alarm clock" />
-  <div class="purchase">
-    <div class="coin-balance">
-      <CoinsSvg width="16px" height="16px" />
-      <span class="cost">{cost}</span>
+<div class="gift-container">
+  <div class="product-display">
+    <img src={imageSrc} alt={title} />
+    <div class="purchase">
+      <div class="coin-balance">
+        <CoinsSvg width="16px" height="16px" />
+        <span class="cost">{cost}</span>
+      </div>
+      <Button type="button">Purchase</Button>
     </div>
-    <Button type="button">Purchase</Button>
   </div>
-</div>
-<div class="description">
-  <h3>{title}</h3>
-  <p>
-    {description}
-  </p>
+  <div class="description">
+    <h3>{title}</h3>
+    <p>
+      {description}
+    </p>
+  </div>
 </div>
 
 <style>
   img {
     width: 180px;
     height: 180px;
+
+    filter: drop-shadow(1px 0px 0px var(--c-white-semi-50))
+      drop-shadow(-1px 0px 0px var(--c-white-semi-50))
+      drop-shadow(0px 1px 0px var(--c-white-semi-50))
+      drop-shadow(0px -1px 0px var(--c-white-semi-50));
+  }
+
+  .gift-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  @media only screen and (max-width: 620px) {
+    .gift-container {
+      flex-direction: column;
+      text-align: center;
+    }
   }
 
   .product-display {

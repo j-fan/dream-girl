@@ -2,8 +2,9 @@
   import CoinsSvg from '$lib/icons/coins-svg.svelte';
   import { coinBalance } from '$lib/stores/user';
   import Modal from '../modal.svelte';
-  import GiftItem from './gift-items.svelte';
-  import { allGifts, type GiftType } from './types';
+  import { allGifts } from './constants';
+  import GiftItems from './gift-items.svelte';
+  import { type GiftType } from './types';
 
   export let isOpen = false;
   export let onClose: (() => void) | undefined = undefined;
@@ -19,16 +20,13 @@
       <div class="header">
         <h2>Gifts</h2>
         <div class="coin-balance">
+          <span>Balance: </span>
           <CoinsSvg width="20px" height="20px" />
           <span>{$coinBalance}</span>
         </div>
       </div>
       <p>Choose a gift you would like to give to Mei.</p>
-      <div class="gift-grid">
-        {#each allGifts as gift}
-          <GiftItem giftType={gift} />
-        {/each}
-      </div>
+      <GiftItems />
     {/if}
   </div>
 </Modal>
@@ -50,12 +48,5 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .gift-grid {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
   }
 </style>
