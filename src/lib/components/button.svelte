@@ -50,4 +50,11 @@
 
     outline: 2px dotted var(--c-white);
   }
+
+  button:disabled {
+    opacity: 50%;
+    cursor: not-allowed;
+    outline: none;
+    background-color: var(--c-navy-semi-50);
+  }
 </style>

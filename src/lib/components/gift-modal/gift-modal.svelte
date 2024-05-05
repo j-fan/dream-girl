@@ -2,12 +2,12 @@
   import CoinsSvg from '$lib/icons/coins-svg.svelte';
   import { coinBalance } from '$lib/stores/user';
   import Modal from '../modal.svelte';
-  import { allGifts } from './constants';
   import GiftItems from './gift-items.svelte';
   import { type GiftType } from './types';
 
   export let isOpen = false;
   export let onClose: (() => void) | undefined = undefined;
+  export let onPurchase: ((giftType: GiftType) => void) | ((giftType: GiftType) => Promise<void>);
 
   let currentDetailView: GiftType | undefined = undefined;
 </script>
@@ -26,7 +26,7 @@
         </div>
       </div>
       <p>Choose a gift you would like to give to Mei.</p>
-      <GiftItems />
+      <GiftItems {onPurchase} />
     {/if}
   </div>
 </Modal>

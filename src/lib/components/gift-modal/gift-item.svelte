@@ -1,11 +1,15 @@
 <script lang="ts">
   import CoinsSvg from '$lib/icons/coins-svg.svelte';
+  import { coinBalance } from '$lib/stores/user';
   import Button from '../button.svelte';
 
   export let imageSrc: string;
   export let cost: number;
   export let title: string;
   export let description: string;
+  export let onPurchaseClick: () => void;
+
+  $: canAfford = cost <= $coinBalance;
 </script>
 
 <div class="gift-container">
@@ -16,7 +20,9 @@
         <CoinsSvg width="16px" height="16px" />
         <span class="cost">{cost}</span>
       </div>
-      <Button type="button">Purchase</Button>
+      <Button disabled={!canAfford} type="button" on:click={onPurchaseClick}
+        >{canAfford ? 'Purchase' : "Can't afford"}</Button
+      >
     </div>
   </div>
   <div class="description">

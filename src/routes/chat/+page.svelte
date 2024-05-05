@@ -10,6 +10,8 @@
   import { fade, fly } from 'svelte/transition';
   import GiftSvg from '$lib/icons/gift-svg.svelte';
   import GiftModal from '$lib/components/gift-modal/gift-modal.svelte';
+  import type { GiftType } from '$lib/components/gift-modal/types';
+  import { giftDetails } from '$lib/components/gift-modal/constants';
 
   let messageData: ChatResponse = {
     history: [],
@@ -72,6 +74,29 @@
     }
 
     messageData.history.push({ role: 'user', content: newUserMessage });
+    autoScrollToBottom();
+
+    // trigger UI update
+    messageData = messageData;
+    // Clear input
+    newUserMessage = '';
+
+    await fetchMessage();
+    autoScrollToBottom();
+  };
+
+  const onPurchase = async (giftType: GiftType) => {
+    isGiftModalOpen = false;
+
+    const giftDetail = giftDetails[giftType];
+    messageData.history.push({
+      role: 'user',
+      content: `You gave a ${giftDetail.title} to Mei.`
+    });
+    messageData.history.push({
+      role: 'system',
+      content: `The client gave a ${giftDetail.title} to Mei to buy her affection. The gift is described as "${giftDetail.description}". Mei responds with skepticism.`
+    });
     autoScrollToBottom();
 
     // trigger UI update
@@ -152,6 +177,7 @@
     onClose={() => {
       isGiftModalOpen = false;
     }}
+    {onPurchase}
   />
 {:else if !isSceneLoading}
   <div class="bottom-anchored" transition:fade>

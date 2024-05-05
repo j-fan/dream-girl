@@ -64,7 +64,7 @@ export const giftDetails: Record<GiftType, GiftDetail> = {
     image: '/img/handbag.png'
   },
   Handcuffs: {
-    title: 'Matching Shackle Bracelets',
+    title: 'Matching Shackle Bracelet',
     description: 'A reminder that you will never leave each other',
     cost: 200,
     image: '/img/handcuffs.png'
@@ -83,7 +83,7 @@ export const giftDetails: Record<GiftType, GiftDetail> = {
     image: '/img/ring.png'
   },
   Rose: {
-    title: 'Rejection Resistant Roses',
+    title: 'Rejection Resistant Rose',
     description:
       "A bouquet of roses that never wilt, symbolizing your resilience in the face of rejection. Because even if your love life feels thorny, you'll always bloom again.",
     cost: 150,
