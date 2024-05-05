@@ -77,7 +77,10 @@
 
   $: {
     if (chatVisible) {
-      fetchMessage();
+      // Slight delay to wait for camera reposition
+      setTimeout(() => {
+        fetchMessage();
+      }, 1000);
     }
   }
 
