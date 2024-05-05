@@ -1,6 +1,7 @@
 <script lang="ts">
   import AboutPageScene from '$lib/babylon/about-page-scene.svelte';
-  import { artistDescription, artworkDescription } from '$lib/components/about-content';
+  import { artistDescription, artworkDescription, credits } from '$lib/components/about-content';
+  import ArtCreditItem from '$lib/components/art-credit-item.svelte';
 </script>
 
 <AboutPageScene />
@@ -18,6 +19,14 @@
       <p>
         {artistDescription}
       </p>
+    </section>
+
+    <h2>Credits</h2>
+    <section>
+      <p>Some 3D models in this artwork have been sourced from generous artists on Sketchfab.</p>
+      {#each credits as credit}
+        <ArtCreditItem {...credit} />
+      {/each}
     </section>
   </div>
 </div>

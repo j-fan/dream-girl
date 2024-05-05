@@ -1,9 +1,10 @@
 <script lang="ts">
   import QuestionSvg from '$lib/icons/question-svg.svelte';
   import QRCodeSvg from '$lib/icons/qr-code-svg.svelte';
-  import { artistDescription, artworkDescription } from './about-content';
+  import { artistDescription, artworkDescription, credits } from './about-content';
   import Modal from './modal.svelte';
   import ArtworkLinkQr from '$lib/icons/artwork-link-qr.svelte';
+  import ArtCreditItem from './art-credit-item.svelte';
 
   let isAboutModalOpen = false;
   let isQRModalOpen = false;
@@ -65,6 +66,14 @@
         {artistDescription}
       </p>
     </section>
+
+    <h2>Credits</h2>
+    <section>
+      <p>Some 3D models in this artwork have been sourced from generous artists on Sketchfab.</p>
+      {#each credits as credit}
+        <ArtCreditItem {...credit} />
+      {/each}
+    </section>
   </div>
 </Modal>
 
@@ -112,6 +121,7 @@
 
   p {
     white-space: pre-wrap;
+    align-self: flex-start;
   }
 
   @media only screen and (max-width: 420px) {
