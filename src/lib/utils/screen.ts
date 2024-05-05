@@ -26,7 +26,15 @@ export const isTabletScreen = () => {
 
 export const isDesktopScreen = () => {
   if (browser) {
-    return window.innerWidth >= 1200;
+    return window.innerWidth < 1600;
+  }
+
+  return false;
+};
+
+export const isWideDesktopScreen = () => {
+  if (browser) {
+    return window.innerWidth >= 1600;
   }
 
   return false;

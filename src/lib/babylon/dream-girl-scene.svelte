@@ -5,7 +5,12 @@
   import { fade } from 'svelte/transition';
   import { initMultiAnimationScene } from './init-multi-animation-scene';
   import LoadingScreen from '$lib/components/loading-screen.svelte';
-  import { isMobileScreen, isTabletPortraitScreen, isTabletScreen } from '$lib/utils/screen';
+  import {
+    isDesktopScreen,
+    isMobileScreen,
+    isTabletPortraitScreen,
+    isTabletScreen
+  } from '$lib/utils/screen';
 
   export let showDebug = false;
   export let onIntroAnimationFinish: (() => void) | undefined = undefined;
@@ -66,9 +71,13 @@
     camera = defaultCamera;
 
     scene.executeWhenReady(() => {
-      loadingProgress = 100;
-      onLoadingFinish?.();
       showMeiIntroAnimation();
+
+      // Let the animation warm up first to avoid seeing T pose
+      setTimeout(() => {
+        loadingProgress = 100;
+        onLoadingFinish?.();
+      }, 1000);
     });
 
     engine.runRenderLoop(() => {
@@ -87,12 +96,12 @@
     };
   });
 
-  const animateCameraToNewTarget = (newTarget: BABYLON.Vector3) => {
+  const animateCameraToNewTarget = (newTarget: BABYLON.Vector3, newAlpha: number) => {
     const ease = new BABYLON.CubicEase();
     ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
 
     BABYLON.Animation.CreateAndStartAnimation(
-      'camera-travel',
+      'camera-target',
       camera,
       'target',
       30,
@@ -100,32 +109,51 @@
       camera.target,
       newTarget,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-      ease
+      ease,
+      () => {
+        BABYLON.Animation.CreateAndStartAnimation(
+          'camera-rotate',
+          camera,
+          'alpha',
+          30,
+          30,
+          camera.alpha,
+          newAlpha,
+          BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+          ease
+        );
+      }
     );
   };
 
   const repositionMei = () => {
     let newLocation: BABYLON.Vector3;
+    let newAlpha = 1.57;
 
     if (isMobileScreen()) {
       newLocation = new BABYLON.Vector3(0, 1.15, 0);
     } else if (isTabletPortraitScreen()) {
       newLocation = new BABYLON.Vector3(-0.3, 1.2, 0);
     } else if (isTabletScreen()) {
-      newLocation = new BABYLON.Vector3(-0.6, 1.2, 0);
+      newLocation = new BABYLON.Vector3(-0.52, 1.2, 0);
+      newAlpha = 1.35;
+    } else if (isDesktopScreen()) {
+      newLocation = new BABYLON.Vector3(-0.65, 1.3, 0);
+      newAlpha = 1.2;
     } else {
-      newLocation = new BABYLON.Vector3(-0.85, 1.3, 0);
+      newLocation = new BABYLON.Vector3(-0.8, 1.3, 0);
+      newAlpha = 1.1;
     }
 
-    animateCameraToNewTarget(newLocation);
+    animateCameraToNewTarget(newLocation, newAlpha);
   };
 
   const showMeiIntroAnimation = () => {
     camera.target = new BABYLON.Vector3(0, 1.3, 0);
-    scene.getAnimationGroupByName('Idle03')?.stop();
+    scene.getAnimationGroupByName('Happy')?.stop();
     scene.getAnimationGroupByName('Viewing Mirror')?.start(false, 1, 0, 750, false);
 
-    animations[1].onAnimationEndObservable.add(() => {
+    scene.getAnimationGroupByName('Viewing Mirror')?.onAnimationEndObservable.add(() => {
       scene.getAnimationGroupByName('Idle03')?.start(true);
       setTimeout(() => {
         repositionMei();
