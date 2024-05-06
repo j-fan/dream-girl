@@ -139,7 +139,7 @@
     } else if (isTabletPortraitScreen()) {
       newLocation = new BABYLON.Vector3(-0.3, 1.25, 0);
     } else if (isTabletScreen()) {
-      newLocation = new BABYLON.Vector3(-0.52, 1.25, 0);
+      newLocation = new BABYLON.Vector3(-0.58, 1.25, 0);
       newAlpha = 1.35;
     } else if (isDesktopScreen()) {
       newLocation = new BABYLON.Vector3(-0.65, 1.35, 0);
