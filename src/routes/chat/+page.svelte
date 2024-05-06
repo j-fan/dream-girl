@@ -5,7 +5,6 @@
   import Button from '$lib/components/button.svelte';
   import Input from '$lib/components/input.svelte';
   import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
-  import { onMount } from 'svelte';
   import DreamGirlScene from '$lib/babylon/dream-girl-scene.svelte';
   import { fade, fly } from 'svelte/transition';
   import GiftSvg from '$lib/icons/gift-svg.svelte';

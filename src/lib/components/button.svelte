@@ -17,6 +17,7 @@
     border-radius: 2rem;
     padding: 0.5rem 1rem;
     min-width: 54px;
+    user-select: none;
   }
 
   button:hover,
