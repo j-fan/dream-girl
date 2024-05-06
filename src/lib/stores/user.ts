@@ -18,10 +18,14 @@ export const generateNewUser = () => {
   quizAnswers.subscribe((answers) => {
     const userCollection = doc(firestore, 'users', userId);
     if (answers.length) {
-      setDoc(userCollection, {
-        answers,
-        coinBalance: 1000
-      });
+      setDoc(userCollection, { answers }, { merge: true });
+    }
+  });
+
+  coinBalance.subscribe((balance) => {
+    const userCollection = doc(firestore, 'users', userId);
+    if (balance !== 1000) {
+      setDoc(userCollection, { balance }, { merge: true });
     }
   });
 };

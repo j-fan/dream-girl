@@ -73,8 +73,10 @@
 
     messageData = result;
 
-    const userCollection = doc(firestore, 'users', $anonymousId);
-    setDoc(userCollection, { chat: result.history });
+    if ($quizAnswers.length > 0) {
+      const userCollection = doc(firestore, 'users', $anonymousId);
+      setDoc(userCollection, { chat: result.history }, { merge: true });
+    }
 
     currentExpression = result.expression;
     isLoading = false;
