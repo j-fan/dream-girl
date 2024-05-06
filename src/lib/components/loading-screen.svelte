@@ -36,7 +36,11 @@
   </div>
 
   <div class="content" transition:scale={{ duration: 500 }}>
-    <img class="logo" src="/img/logo.png" alt="Dream girl logo" />
+    <picture>
+      <source srcset="img/logo.webp" type="image/webp" />
+      <source srcset="/img/logo.png" type="image/png" />
+      <img class="logo" src="/img/logo.png" alt="Dream girl logo" />
+    </picture>
     <div class="bottom-content">
       {#if isReady}
         <div transition:scale>
