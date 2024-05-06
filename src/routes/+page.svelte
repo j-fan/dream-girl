@@ -1,6 +1,5 @@
 <script lang="ts">
   import IntroScene from '$lib/babylon/intro-scene.svelte';
-  import { onMount } from 'svelte';
 </script>
 
 <svelte:head>

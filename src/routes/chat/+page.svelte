@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { EventHandler } from 'svelte/elements';
   import type { ChatRequest, ChatResponse } from './api-types';
-  import { quizAnswers } from '$lib/stores/user';
+  import { anonymousId, quizAnswers } from '$lib/stores/user';
   import Button from '$lib/components/button.svelte';
   import Input from '$lib/components/input.svelte';
   import PaperPlaneSvg from '$lib/icons/paper-plane-svg.svelte';
@@ -12,6 +12,8 @@
   import type { GiftType } from '$lib/components/gift-modal/types';
   import { giftDetails } from '$lib/components/gift-modal/constants';
   import type { ExpressionType } from '$lib/babylon/types';
+  import { doc, setDoc } from 'firebase/firestore';
+  import { firestore } from '$lib/firebase/firebase';
 
   let messageData: ChatResponse = {
     history: [],
@@ -70,6 +72,10 @@
     const result: ChatResponse = JSON.parse(await response.text());
 
     messageData = result;
+
+    const userCollection = doc(firestore, 'users', $anonymousId);
+    setDoc(userCollection, { chat: result.history });
+
     currentExpression = result.expression;
     isLoading = false;
   };
