@@ -8,6 +8,7 @@
   import ExitDoorSvg from '$lib/icons/exit-door-svg.svelte';
   import { goto } from '$app/navigation';
   import { generateNewUser } from '$lib/stores/user';
+  import { page } from '$app/stores';
 
   let isAboutModalOpen = false;
   let isQRModalOpen = false;
@@ -31,15 +32,17 @@
   >
     <QuestionSvg />
   </button>
-  <button
-    type="button"
-    on:click={() => {
-      generateNewUser();
-      goto('/');
-    }}
-  >
-    <ExitDoorSvg />
-  </button>
+  {#if $page.url.pathname === '/chat'}
+    <button
+      type="button"
+      on:click={() => {
+        generateNewUser();
+        goto('/');
+      }}
+    >
+      <ExitDoorSvg />
+    </button>
+  {/if}
 </div>
 
 <Modal
