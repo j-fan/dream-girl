@@ -7,6 +7,7 @@
   import ArtCreditItem from './art-credit-item.svelte';
   import ExitDoorSvg from '$lib/icons/exit-door-svg.svelte';
   import { goto } from '$app/navigation';
+  import { generateNewUser } from '$lib/stores/user';
 
   let isAboutModalOpen = false;
   let isQRModalOpen = false;
@@ -33,6 +34,7 @@
   <button
     type="button"
     on:click={() => {
+      generateNewUser();
       goto('/');
     }}
   >
