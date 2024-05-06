@@ -48,7 +48,8 @@
         </div>
       {:else}
         <div class="loading-container">
-          <span class="progress-amount">{progress.toFixed(0)}%</span>
+          <!-- Loading is basically instant thanks to PWA cache -->
+          <!-- <span class="progress-amount">{progress.toFixed(0)}%</span> -->
           <Circle size="100" color="#FFFFFF" unit="px" duration="1s" />
         </div>
       {/if}
