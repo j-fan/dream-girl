@@ -13,9 +13,9 @@
   initialiseFirebase();
 
   const title = 'Dream Girl';
-  const description = 'TODO: description';
-  const socialMediaImage = '';
-  const websiteLink = 'https://j-fan.github.io/dream-girl';
+  const description = `"Dream Girl" is an interactive artwork features Mei, an artificial romantic companion. This artwork draws upon characterizations of female robots in science fiction and social expectations of East Asian women to challenge assumptions about their passivity.`;
+  const socialMediaImage = 'https://dreamgirl.janefan.xyz/img/dream-girl-social.jpg';
+  const websiteLink = 'https://dreamgirl.janefan.xyz/';
 
   onMount(() => {
     generateNewUser();
