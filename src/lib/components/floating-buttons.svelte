@@ -5,6 +5,8 @@
   import Modal from './modal.svelte';
   import ArtworkLinkQr from '$lib/icons/artwork-link-qr.svelte';
   import ArtCreditItem from './art-credit-item.svelte';
+  import ExitDoorSvg from '$lib/icons/exit-door-svg.svelte';
+  import { goto } from '$app/navigation';
 
   let isAboutModalOpen = false;
   let isQRModalOpen = false;
@@ -27,6 +29,14 @@
     }}
   >
     <QuestionSvg />
+  </button>
+  <button
+    type="button"
+    on:click={() => {
+      goto('/');
+    }}
+  >
+    <ExitDoorSvg />
   </button>
 </div>
 
@@ -86,7 +96,7 @@
     margin: 1rem;
 
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
   button {
