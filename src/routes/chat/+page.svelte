@@ -89,6 +89,9 @@
       return;
     }
 
+    // Dismiss virtual keyboard
+    (document.activeElement as HTMLElement)?.blur();
+
     messageData.history.push({ role: 'user', content: newUserMessage });
     autoScrollToBottom();
 
