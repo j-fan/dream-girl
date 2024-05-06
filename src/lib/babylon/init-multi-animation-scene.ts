@@ -83,7 +83,7 @@ export const initMultiAnimationScene = ({
   const animations: BABYLON.AnimationGroup[] = [];
   const cameraAnimations: BABYLON.AnimationGroup[] = [];
 
-  const engine = new BABYLON.Engine(canvasRef, true);
+  const engine = new BABYLON.Engine(canvasRef, true, undefined, true);
   const scene = new BABYLON.Scene(engine);
 
   // Do not show default loading screen
