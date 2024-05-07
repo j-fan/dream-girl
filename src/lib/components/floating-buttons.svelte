@@ -32,17 +32,20 @@
   >
     <QuestionSvg />
   </button>
-  {#if $page.url.pathname === '/chat'}
-    <button
-      type="button"
-      on:click={() => {
-        generateNewUser();
+
+  <button
+    type="button"
+    on:click={() => {
+      generateNewUser();
+      if ($page.url.pathname === '/chat') {
         goto('/');
-      }}
-    >
-      <ExitDoorSvg />
-    </button>
-  {/if}
+      } else {
+        window.location.reload();
+      }
+    }}
+  >
+    <ExitDoorSvg />
+  </button>
 </div>
 
 <Modal
