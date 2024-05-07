@@ -114,7 +114,7 @@
     background-color: var(--c-navy);
     cursor: pointer;
     border-radius: 50%;
-    border: 1px solid white;
+    /* border: 1px solid white; */
 
     display: grid;
     place-items: center;
