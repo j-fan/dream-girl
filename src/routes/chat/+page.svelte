@@ -66,6 +66,7 @@
 
     if (!response.ok) {
       isError = true;
+      isLoading = false;
       return;
     }
 
